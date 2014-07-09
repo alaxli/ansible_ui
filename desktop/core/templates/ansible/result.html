@@ -1,0 +1,112 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                                <a href="{%if job.project.name == 'package' %} {% url 'list_packages' %} {% elif job.project.name == 'service' %} {% url 'list_services' %} {% else %} {% url 'view_project' job.project.name %} {% endif %}" >{{ job.project.name }}</a>
+                <span class="divider">/</span>
+                <span>{% trans "Execute Result" %}</span>
+                <a class="pull-right" href="{% url 'restart_job' project_name=job.project.name job_pk=job.pk %}"><i class=" icon-refresh"></i>{% trans " Restart" %}</a>
+            </h3>
+            <p>
+                <span>{% trans " Status: " %}<b id="job_status">{{ job.status }}</b> </span>
+                <span id="second_remain_container" class="pull-right">{% trans " refresh after " %}<b id="second_remain">5</b>{% trans " second" %}</span>
+            </p>
+        </div>
+
+        <di class="container">
+            <h5>stdout</h5>
+            <pre id="result_stdout" class="prettyprint lang-yaml" >
+                {{ job.result_stdout }}
+            </pre>
+        </di>
+        <di class="container">
+            <h5>stderr</h5>
+            <pre id="result_stderr" class="prettyprint lang-yaml" >
+                 {{ job.result_stderr }}
+            </pre>
+        </di>
+
+        <di class="container">
+            <h5>traceback</h5>
+            <pre id="result_traceback" class="prettyprint lang-yaml" >
+                {{ job.result_traceback }}
+            </pre>
+        </di>
+
+        <di class="container">
+            <h5>Ansible Resources</h5>
+            <div class="controls-row">
+                <a href="{% url 'elfinder_view_file' job.project.name job.inventory %}" >Inventory</a>
+                <a href="{% url 'elfinder_view_file' job.project.name job.playbook %}" >Playbook</a>
+            </div>
+        </di>
+
+
+    </div>
+
+    <script type="text/javascript">
+		
+		var stockInterval ;
+        $(function(){
+            var job_status = $("#job_status").text()
+            if( job_status == "pending" || job_status=="running"){
+               stockInterval =  setInterval(updateTimeRemain,1000)
+            }else{
+				$("#second_remain_container").html("");
+			}
+
+        })
+
+        var time_remain = 5 ;
+        function updateTimeRemain(){
+            $("#second_remain").text(time_remain--);
+            if(time_remain<=0){
+
+                refreshResult();
+            }
+        }
+
+        function refreshResult(){
+
+            time_remain = 5 ;
+            $("#second_remain_container").html("updating ...")
+            var url = "{% url 'job_result_json' job.project.name job.pk %}"
+            jQuery.get(
+                    url,
+                    function(data){
+                        if(data.result_stdout.length>0){
+                            $("#result_stdout").html("\n" + data.result_stdout +"\n");
+                        }
+
+                        if(data.result_stderr.length>0){
+                            $("#result_stderr").html("\n" + data.result_stderr +"\n");
+                        }
+
+                        if(data.result_traceback.length>0){
+                            $("#result_traceback").html("\n" + data.result_traceback +"\n");
+                        }
+
+						 var job_status = data.status ;
+
+                        $("#job_status").text(job_status)
+
+						if(job_status!="pending" && job_status!="running"){
+							
+								clearInterval(stockInterval);
+								 $("#second_remain_container").html("");
+						}else{
+						 
+							$("#second_remain_container").html("refresh after <b id=\"second_remain\">"+time_remain+"</b> second")
+
+						}
+
+                       
+
+
+                    })
+        }
+    </script>
+{% endblock %}

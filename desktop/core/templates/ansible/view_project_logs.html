@@ -1,0 +1,163 @@
+{% extends "base.html" %}{% load i18n %}
+{% load pagination_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                {{ project.name }}
+                <a class="pull-right" href="{% url 'explore' project.name %}"><i class="icon-th-large"></i>{% trans "Explore" %}</a>
+            </h3>
+            <p class="muted" style="padding-left: 70px">{{ project.description }}</p>
+
+        </div>
+        <div class="row">
+            <div class="span3">
+                <div class="well sidebar-nav">
+                    <header>
+                        <h5>Ansible Resources <a class="pull-right" href="{% url 'explore' project.name %}"><i class="icon-th-large"></i></a></h5>
+                    </header>
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Inventories</li>
+                        {% for item in project.available_inventories %}
+                            <li><a href="{% url 'view_file' project_name=project.name path=item type='inventory' %}">{{ item }}</a></li>
+                        {% endfor %}
+                        <li class="nav-header">Playbooks</li>
+                        {% for item in project.available_playbooks %}
+                            <li><a href="{% url 'view_file' project_name=project.name path=item type='playbook'%}" role="leaf" id="nut">{{ item }}</a></li>
+                        {% endfor %}
+                        <li class="nav-header">Vars</li>
+                        {% for item in project.available_varfiles %}
+                            <li><a href="{% url 'view_file' project_name=project.name path=item type='vars'%}" role="leaf" id="nut">{{ item }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="span9">
+                <div class="well well-small">
+                    <header>
+                    <h5>{% trans "Execute Command" %}</h5>
+                    </header>
+                    <div class="row-fluid">
+                       <div class="span3">
+                          <a href="{% url 'execute_playbook' project.name %}" class="btn btn-primary">{% trans "Execute Job" %}</a>
+                          <a href="#" id="playbooktip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="通过playbooks中的yml文件，生成任务" title="Note" ><i class="icon-question-sign"></i></a>
+                       </div>
+                       <div class="span3">
+                        <a href="{% url 'execute_script' project.name %}" class="btn btn-primary">{% trans "Execute Script" %}</a>
+                       </div>
+                       <div class="span3">
+                        <a href="{% url 'execute_scp' project.name %}" class="btn btn-primary">{% trans "Execute Scp" %}</a>
+                       </div>
+                   </div>
+                </div>
+
+                <! -- common management -->
+                <div class="well well-small">
+                    <header>
+                    <h5>{% trans "Common Management" %}</h5>
+                    </header>
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <a href="#hostmgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Host Management" %}</a>
+                            <a href="#" id="hostmgttip" class="btn btn-info btn-mini" data-placement="bottom" rel="popover" data-content="[test]<br/>10.204.8.228<br/><br/>[product]<br/>10.150.140.82<br/><br/>[all:children]<br/>test<br/>product<br/>" title="Example"><i class="icon-question-sign"></i></a>
+                        </div>
+
+                        <div class="span3">
+                            <a href="#packagemgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Package Management" %}</a>
+                            <a href="#" id="packagemgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="目录：packages<br/>仅供ci平台使用，存储jenkins平台编译的程序包<br/>删除对应版本的程序包，再次执行ci平台编译，可实现程序重新打包<br/>自定义的数据文件请放在数据管理中" title="Note" ><i class="icon-question-sign"></i></a>
+                         </div>
+                        
+                         <div class="span3">
+                            <a href="#datamgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Data Management" %}</a>
+                            <a href="#" id="datamgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="目录：data<br/>存储用户自定义的文件<br/>在yml中引用路径为 ../data/" title="Note" ><i class="icon-question-sign"></i></a>
+                         </div>
+
+                         <div class="span3">
+                            <a href="{% url 'deploykey' project.name %}" class="btn btn-primary">{% trans "Deploy SSHKey" %}</a>
+                            <a href="#" id="deploykeytip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="" title="Note" ><i class="icon-question-sign"></i></a>
+                         </div>
+                    </div>
+               </div>
+
+               <!-- hostmgtModal -->
+                <form id="frmHostmgt" class="form-horizontal" action="{{ action }}" method="post">
+                {% csrf_token %}
+                <div id="hostmgtModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="hostmgtModalLabel" aria-hidden="true" style="position:relative; top:auto; width:400px; height:500px;max-width:100%; max-height:100%">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3 id="hostmgtModalLabel">Host Management</h3>
+                    </div>
+                    <div class="modal-body">
+                         <textarea name="hostcontent" style="width:335px; height:350px">{{ hostcontent }}</textarea>
+                    </div>
+                    <div class="modal-footer">
+                         <button id="hostmgtsave" class="btn btn-primary">{% trans "Save" %}</button>
+                         <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans "Close" %}</button>
+                    </div>
+                </div>
+                </form>
+               
+               <!-- packagemgtModal -->
+               <div id="packagemgtModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="packagemgtModalLabel" aria-hidden="true" style="width:1120px; height:auto">
+                    <div class="modal-body">
+                      <div id="elfinder-package"></div>
+                    </div>
+               </div>
+
+               <!-- datamgtModal -->
+               <div id="datamgtModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="datamgtModalLabel" aria-hidden="true" style="width:1120px; height:auto">
+                    <div class="modal-body">
+                      <div id="elfinder-data"></div>
+                    </div>
+               </div>
+
+               <!-- job template & job log -->
+                <div class="box">
+                    <ul class="nav nav-tabs">
+                        <li >
+                        <a href="{% url 'view_project' project.name %}">{% trans "Job Template" %}</a>
+                        </li>
+                        <li class="active">
+                        <a href="{% url 'view_project_logs' project.name %}">{% trans "Job Log" %}</a>
+                        </li>
+
+                    </ul>
+                    <table class="table table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>{% trans "Job ID" %}</th>
+                            <th>{% trans "Job Status" %}</th>
+                            <th>{% trans "Created User" %}</th>
+                            <th>{% trans "Created Date" %}</th>
+                            <th>{% trans "Operation" %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% autopaginate jobs 20 %}
+                        {% for item in jobs %}
+                            <tr id="tr{{ item.pk }}" class="tableRow">
+                                <td><a href="{% url 'job_execute_result' project.name item.pk %}">{{ item.name }}</a></td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.created_by }}</td>
+                                <td>{{ item.creation_date}}</td>
+                                <td><a href="{% url 'job_execute_result' project.name item.pk %}"><i class="icon-eye-open"></i> {%trans "View" %}</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% paginate %}
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+$(function () {
+    $('#hostmgttip').popover();
+    $('#packagemgttip').popover();
+    $('#datamgttip').popover();
+    $('#playbooktip').popover();
+});
+</script>
+{% endblock %}

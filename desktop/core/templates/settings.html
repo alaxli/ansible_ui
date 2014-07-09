@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h3>{% trans "Settings" %}</h3>
+    </div>
+    <legend>{% trans "Language" %}</legend>
+    <div class="control-group">
+
+    <form id="langform" name="langform" action="/i18n/setlang/" method="post"> 
+    {% csrf_token %} 
+        <select id="language" name="language" onchange="this.form.submit();">
+        <option value="" selected></option>
+        {% for lang in LANGUAGES %}
+        <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+        {% endfor %}
+        </select>
+    </form>
+</div>
+</div>
+
+{% endblock %}

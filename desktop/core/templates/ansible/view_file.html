@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+                <span class="divider">/</span>
+                <span>{{ path }}</span>
+            </h3>
+        </div>
+        <di class="container">
+            <h5>{{ file_name }}</h5>
+            <pre class="prettyprint lang-yaml" >{{ content }}</pre>
+        </di>
+    </div>
+    <link type="text/css" href="/static/ext/prettify/prettify.css" rel="stylesheet"></link>
+    <script src="/static/ext/prettify/run_prettify.js"></script>
+
+
+
+
+{% endblock %}

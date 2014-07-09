@@ -1,0 +1,455 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-01 18:22+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: settings.py:39
+msgid "English"
+msgstr "英文"
+
+#: settings.py:40
+msgid "Chinese"
+msgstr "中文"
+
+#: pagination/templates/pagination/pagination.html:6
+#: pagination/templates/pagination/pagination.html:8
+msgid "prev"
+msgstr "前一页"
+
+#: pagination/templates/pagination/pagination.html:22
+#: pagination/templates/pagination/pagination.html:24
+msgid "next"
+msgstr "后一页"
+
+
+#: templates/base.html:90
+msgid "beta"
+msgstr "测试"
+
+#: templates/base.html:104 templates/ansible/deploykey.html:45
+#: templates/ansible/execute_playbook.html:71
+#: templates/ansible/manage_project.html:71
+msgid "User"
+msgstr "用户"
+
+#: templates/base.html:105 templates/ansible/list_projects.html:6
+#: templates/ansible/list_projects_group.html:6
+msgid "Projects"
+msgstr "项目"
+
+#: templates/base.html:106
+msgid "Help"
+msgstr "帮助"
+
+#: templates/base.html:107
+msgid "Wiki"
+msgstr ""
+
+#: templates/base.html:108
+msgid "AnsibleDocs"
+msgstr ""
+
+#: templates/base.html:147
+msgid "MyProfile"
+msgstr "我的信息"
+
+#: templates/base.html:151 templates/settings.html:5
+msgid "Settings"
+msgstr "设置"
+
+#: templates/base.html:155
+msgid "logout"
+msgstr "退出"
+
+
+#: templates/login.html:88 templates/account/list_users.html:10
+#: templates/account/profile.html:23 templates/account/profile.html.py:71
+msgid "Username"
+msgstr "用户名"
+
+#: templates/login.html:91 templates/ansible/deploykey.html:52
+msgid "Password"
+msgstr "密码"
+
+#: templates/login.html:94
+msgid "Login"
+msgstr "登录"
+
+#: templates/settings.html:7
+msgid "Language"
+msgstr "语言"
+
+#: templates/account/credential.html:5
+msgid "'s Credential"
+msgstr "的证书"
+
+#: templates/account/credential.html:10 templates/account/profile.html:10
+msgid "Profile"
+msgstr "信息"
+
+#: templates/account/credential.html:12 templates/account/profile.html:13
+msgid "Credential"
+msgstr "证书"
+
+#: templates/account/list_users.html:5
+msgid "Users"
+msgstr "用户"
+
+#: templates/account/list_users.html:11 templates/account/profile.html:29
+#: templates/account/profile.html.py:77
+msgid "First Name"
+msgstr "姓"
+
+#: templates/account/list_users.html:12 templates/account/profile.html:35
+#: templates/account/profile.html.py:83
+msgid "Last Name"
+msgstr "名"
+
+#: templates/account/list_users.html:13
+msgid "E-mail"
+msgstr "电子邮箱"
+
+#: templates/account/list_users.html:14
+msgid "Last Login"
+msgstr "最后一次登录"
+
+#: templates/account/profile.html:5
+msgid "'s Profile"
+msgstr "的信息"
+
+#: templates/account/profile.html:21 templates/account/profile.html.py:69
+msgid "Basic"
+msgstr "基本"
+
+#: templates/account/profile.html:41 templates/account/profile.html.py:89
+#: templates/ansible/execute_playbook.html:175
+msgid "Email"
+msgstr "电子邮箱"
+
+#: templates/account/profile.html:48 templates/account/profile.html.py:96
+msgid "Extend"
+msgstr "扩展"
+
+#: templates/account/profile.html:50 templates/account/profile.html.py:98
+msgid "CN Name"
+msgstr "CN名称"
+
+#: templates/account/profile.html:56 templates/account/profile.html.py:104
+msgid "Phone NO"
+msgstr "手机"
+
+#: templates/account/profile.html:64
+#: templates/ansible/execute_playbook.html:190
+#: templates/ansible/view_project.html:96
+#: templates/ansible/view_project_logs.html:96
+msgid "Save"
+msgstr "保存"
+
+#: templates/ansible/add_project.html:6 templates/ansible/list_projects.html:8
+#: templates/ansible/list_projects_group.html:8
+msgid "New Project"
+msgstr "新的项目"
+
+#: templates/ansible/add_project.html:19
+msgid "Project name"
+msgstr "项目名称"
+
+#: templates/ansible/add_project.html:25
+msgid "Project description"
+msgstr "描述"
+
+#: templates/ansible/add_project.html:31
+#: templates/ansible/list_projects.html:29
+#: templates/ansible/list_projects_group.html:29
+msgid "SCM Type"
+msgstr "SCM类型"
+
+#: templates/ansible/add_project.html:42
+msgid "SCM URL"
+msgstr ""
+
+#: templates/ansible/add_project.html:48
+msgid "Group"
+msgstr "组"
+
+#: templates/ansible/add_project.html:56 templates/ansible/deploykey.html:69
+msgid "Submit"
+msgstr "提交"
+
+#: templates/ansible/deploykey.html:10 templates/ansible/view_project.html:78
+#: templates/ansible/view_project_logs.html:78
+msgid "Deploy SSHKey"
+msgstr "部署密钥"
+
+#: templates/ansible/deploykey.html:26
+#: templates/ansible/execute_playbook.html:54
+msgid "Select Inventory"
+msgstr "选择资产"
+
+#: templates/ansible/deploykey.html:38
+#: templates/ansible/execute_playbook.html:65
+msgid "Hosts"
+msgstr "主机"
+
+#: templates/ansible/deploykey.html:59
+msgid "SSH Public Key"
+msgstr ""
+
+#: templates/ansible/deploykey.html:76
+msgid "Result"
+msgstr "执行结果"
+
+#: templates/ansible/execute_playbook.html:81
+msgid "Vars"
+msgstr "变量"
+
+#: templates/ansible/execute_playbook.html:84
+msgid "Drag the <b>var</b> item to here"
+msgstr "将<b>var</b>变量文件拖到此处"
+
+#: templates/ansible/execute_playbook.html:89
+msgid "Package"
+msgstr "程序包"
+
+#: templates/ansible/execute_playbook.html:93
+msgid "Select"
+msgstr "选择"
+
+#: templates/ansible/execute_playbook.html:99
+msgid "Tasks"
+msgstr "任务"
+
+#: templates/ansible/execute_playbook.html:102
+msgid "Drag the <b>Playbook</b> item to here"
+msgstr "将<b>Playbook</b>任务文件拖到此处"
+
+#: templates/ansible/execute_playbook.html:109
+#: templates/ansible/view_project.html:131
+msgid "Template Name"
+msgstr "模板名称"
+
+#: templates/ansible/execute_playbook.html:121
+msgid "Advantage Settings"
+msgstr "高级设置"
+
+#: templates/ansible/execute_playbook.html:170
+msgid "Email Notice"
+msgstr "邮件通知"
+
+#: templates/ansible/execute_playbook.html:178
+msgid "Input users' email, use comma to separate"
+msgstr "请输入用户邮箱地址，使用逗号分隔"
+
+#: templates/ansible/execute_playbook.html:189
+#: templates/ansible/manage_project.html:74
+msgid "Execute"
+msgstr "执行"
+
+#: templates/ansible/execute_playbook.html:190
+msgid "Save as Template"
+msgstr "存储为模板"
+
+#: templates/ansible/execute_playbook.html:196
+msgid "PackageSelect"
+msgstr "选择安装包"
+
+#: templates/ansible/execute_playbook.html:313
+msgid "OK"
+msgstr "确定"
+
+#: templates/ansible/execute_playbook.html:326
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/ansible/explore.html:11 templates/ansible/view_project.html:10
+#: templates/ansible/view_project_logs.html:10
+msgid "Explore"
+msgstr "浏览"
+
+#: templates/ansible/list_projects.html:16
+#: templates/ansible/list_projects_group.html:16
+#: templates/ansible/manage_project.html:76
+msgid "All"
+msgstr "所有"
+
+#: templates/ansible/list_projects.html:27
+#: templates/ansible/list_projects_group.html:27
+msgid "Project Name"
+msgstr "项目名称"
+
+#: templates/ansible/list_projects.html:28
+#: templates/ansible/list_projects_group.html:28
+msgid "Description"
+msgstr "描述"
+
+#: templates/ansible/list_projects.html:30
+#: templates/ansible/list_projects_group.html:30
+#: templates/ansible/view_project.html:132
+#: templates/ansible/view_project_logs.html:132
+msgid "Created User"
+msgstr "创建者"
+
+#: templates/ansible/list_projects.html:31
+#: templates/ansible/list_projects_group.html:31
+#: templates/ansible/view_project.html:134
+#: templates/ansible/view_project_logs.html:134
+msgid "Operation"
+msgstr "操作"
+
+#: templates/ansible/list_projects.html:42
+#: templates/ansible/list_projects_group.html:42
+msgid "Edit"
+msgstr "编辑"
+
+#: templates/ansible/list_projects.html:43
+#: templates/ansible/list_projects_group.html:43
+#: templates/ansible/view_project.html:144
+msgid "Delete"
+msgstr "删除"
+
+#: templates/ansible/list_projects.html:44
+#: templates/ansible/list_projects_group.html:44
+#: templates/ansible/manage_project.html:75
+msgid "Manage"
+msgstr "管理"
+
+#: templates/ansible/manage_project.html:10
+msgid "Manage Project"
+msgstr "管理项目"
+
+#: templates/ansible/manage_project.html:58
+msgid "Add"
+msgstr "添加"
+
+#: templates/ansible/manage_project.html:61
+msgid "If the project is public access, you can add AnonymousUser."
+msgstr "如果项目可以开放公共访问权限，可以添加AnonymousUser用户"
+
+#: templates/ansible/manage_project.html:62
+msgid "AnonymousUser can has access and config privilege, others no use."
+msgstr "AnonymousUser用户可以拥有访问和配置权限，不能拥有执行和管理权限"
+
+#: templates/ansible/manage_project.html:72
+msgid "Access"
+msgstr "访问"
+
+#: templates/ansible/manage_project.html:73
+msgid "Config"
+msgstr "配置"
+
+#: templates/ansible/result.html:10
+msgid "Execute Result"
+msgstr "执行结果"
+
+#: templates/ansible/result.html:11
+msgid " Restart"
+msgstr " 重启"
+
+#: templates/ansible/result.html:14
+msgid " Status: "
+msgstr " 状态："
+
+#: templates/ansible/result.html:15
+msgid " refresh after "
+msgstr " 刷新于 "
+
+#: templates/ansible/result.html:15
+msgid " second"
+msgstr " 秒之后"
+
+#: templates/ansible/view_project.html:20
+msgid "Ansible Resources"
+msgstr ""
+
+#: templates/ansible/view_project.html:41
+#: templates/ansible/view_project_logs.html:40
+msgid "Execute Command"
+msgstr "执行"
+
+#: templates/ansible/view_project.html:45
+#: templates/ansible/view_project_logs.html:44
+msgid "Execute Job"
+msgstr "部署任务"
+
+#: templates/ansible/view_project.html:49
+#: templates/ansible/view_project_logs.html:48
+msgid "Execute Script"
+msgstr "脚本执行"
+
+#: templates/ansible/view_project.html:52
+#: templates/ansible/view_project_logs.html:51
+msgid "Execute Scp"
+msgstr "文件传输"
+
+#: templates/ansible/view_project.html:60
+#: templates/ansible/view_project_logs.html:59
+msgid "Common Management"
+msgstr "通用管理"
+
+#: templates/ansible/view_project.html:64
+#: templates/ansible/view_project.html:90
+#: templates/ansible/view_project_logs.html:63
+msgid "Host Management"
+msgstr "主机管理"
+
+#: templates/ansible/view_project.html:68
+#: templates/ansible/view_project_logs.html:68
+msgid "Package Management"
+msgstr "程序包管理"
+
+#: templates/ansible/view_project.html:73
+#: templates/ansible/view_project_logs.html:73
+msgid "Data Management"
+msgstr "数据管理"
+
+#: templates/ansible/view_project.html:97
+#: templates/ansible/view_project_logs.html:97
+msgid "Close"
+msgstr "关闭"
+
+#: templates/ansible/view_project.html:121
+#: templates/ansible/view_project_logs.html:120
+msgid "Job Template"
+msgstr "任务模板"
+
+#: templates/ansible/view_project.html:124
+#: templates/ansible/view_project_logs.html:123
+msgid "Job Log"
+msgstr "任务日志"
+
+#: templates/ansible/view_project.html:133
+#: templates/ansible/view_project_logs.html:133
+msgid "Created Date"
+msgstr "创建时间"
+
+#: templates/ansible/view_project_logs.html:130
+msgid "Job ID"
+msgstr "任务ID"
+
+#: templates/ansible/view_project_logs.html:131
+msgid "Job Status"
+msgstr "任务状态"
+
+#: templates/ansible/view_project_logs.html:145
+msgid "View"
+msgstr "查看"
+
+#~ msgid " Explore"
+#~ msgstr " 浏览"
+
+#~ msgid "Select Vars_File"
+#~ msgstr "选择变量文件"

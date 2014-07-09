@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="alert">
+            <p><strong>{{ message }}</strong></p>
+            {% if detail %}
+                <p>{{ detail }}</p>
+            {% endif %}
+        </div>
+
+        <div class="details">
+            {% if traceback %}
+                <a href="javascript:toggleDisplay('#traceback');"><i class="icon-share-alt"></i>More Info</a>
+                &nbsp;
+                <a href="/logs" target="_new">View Logs</a>
+                <br />
+                <br />
+                <div id="traceback" class="hide">
+                    <table class="table table-striped" style="background: white; border: 1px solid #DDDDDD;">
+                        <thead>
+                        <tr>
+                            <td>File Name</td>
+                            <td>Line Number</td>
+                            <td>Function Name</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in traceback %}
+                            <tr>
+                                <td>{{ item.file_name }}</td>
+                                <td>{{ item.line_number }}</td>
+                                <td>{{ item.function_name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="alert-actions">
+            <a class="btn small" href="javascript:window.history.back(-1)">Go back</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+

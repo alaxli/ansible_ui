@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Error!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/static/ext/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/portal.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/static/ext/js/html5.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        body {
+            padding-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="/">CloudPortal</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Error!</h1>
+        <pre>{{ error }}</pre>
+        {% if traceback %}
+            <textarea style="width: 100%;" rows=80 readonly="readonly">
+                {{ traceback }}
+            </textarea>
+        {% endif %}
+        <a class="btn" onclick="history.back()">Back</a>
+    </div>
+    <script src="/static/ext/js/jquery/jquery-1.8.1.min.js"></script>
+    <script src="/static/ext/js/bootstrap.min.js"></script>
+
+</body>
+</html>

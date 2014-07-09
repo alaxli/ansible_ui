@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>{% trans "Users" %}</h3>
+        </div>
+        <table class="table table-striped table-condensed">
+        <thead>
+        <tr>
+            <th>{% trans "Username" %}</th>
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "E-mail" %}</th>
+            <th>{% trans "Last Login" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for listed_user in users %}
+        <tr class="tableRow" data-search="{{ listed_user.username }}{{ listed_user.first_name }}{{ listed_user.last_name }}">
+            <td>
+                <strong>
+                    <a title="{{ listed_user.username }}'s profile" href="{% url 'profile' listed_user.username %}">{{ listed_user.username }}</a>
+                </strong>
+
+            </td>
+            <td>{{ listed_user.first_name }}</td>
+            <td>{{ listed_user.last_name }}</td>
+            <td>{{ listed_user.email }}</td>
+            <td>{{ listed_user.last_login | date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

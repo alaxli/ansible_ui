@@ -1,0 +1,62 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>{% trans "New Project" %}</h3>
+        </div>
+        <form id="frmProject" class="form-horizontal" action="{{ action }}" method="post">
+            {% csrf_token %}
+            {% if page_errors %}
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>ERROR!</strong>
+                    Invalid username or password
+
+                </div>
+            {% endif %}
+            <div class="control-group">
+                <label class="control-label" for="inputName">{% trans "Project name" %} </label>
+                <div class="controls">
+                    <input name="name" type="text" required="required" class="span3" id="inputName" placeholder="Example Project" value="{{ project.name }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">{% trans "Project description" %} </label>
+                <div class="controls">
+                    <textarea name="description" id="inputDescription" class="span6" rows="3" cols="30" placeholder="This project is used to ...">{{ project.description }}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputScmtype">{% trans "SCM Type" %}  </label>
+                <div class="controls">
+                   <select name="scmtype" class="span3">
+                       <option>{{ project.scmtype }}</option>
+                       <option value="Subversion">Subversion</option>
+                       <option value="Git">Git</option>
+                       <option value="NONE">NONE</option>
+                   </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputScmurl">{% trans "SCM URL" %} </label>
+                <div class="controls">
+                    <input name="scmurl" type="text" class="span3" id="scmurl" placeholder="SCM URL ..." value="{{ project.scmurl }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputGroup">{% trans "Group" %} </label>
+                <div class="controls">
+                    <input name="group" type="text" class="span3" id="group" placeholder="group name ..." value="{{ project.group }}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

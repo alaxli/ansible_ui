@@ -1,0 +1,158 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+                <span class="divider">/</span>
+                <span>{% trans "Manage Project" %} </span>
+            </h3>
+        </div>
+        <form id="frmProject" class="form-horizontal" action="{{ action }}" method="post">
+            {% csrf_token %}
+            {% if page_errors %}
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>ERROR!</strong>
+                    Invalid username or password
+
+                </div>
+            {% endif %}
+            <!--
+            <div class="control-group">
+                <label class="control-label" for="inputName">Project name </label>
+                <div class="controls">
+                    <input name="name" type="text" required="required" class="span3" id="inputName" placeholder="Example Project" value="{{ project.name }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputDescription">Project description </label>
+                <div class="controls">
+                    <textarea name="description" id="inputDescription" class="span6" rows="3" cols="30" placeholder="This project is used to ...">{{ project.description }}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputScmtype">SCM Type  </label>
+                <div class="controls">
+                   <select name="scmtype" class="span3">
+                       <option>{{ project.scmtype }}</option>
+                       <option value="Subversion">Subversion</option>
+                       <option value="Git">Git</option>
+                       <option value="NONE">NONE</option>
+                   </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputScmurl">SCM URL </label>
+                <div class="controls">
+                    <input name="scmurl" type="text" required="required" class="span3" id="scmurl" placeholder="SCM URL ..." value="{{ project.scmurl }}">
+                </div>
+            </div>
+            -->
+            <div class="control-group">
+                <label class="control-label" for="security">Security </label>
+                <div class="controls">
+                    <input name="username" type="text" class="span3" id="username" placeholder="User name">
+                    <button id="adduser" class="btn" type="button">{% trans "Add" %}</button>
+                </div>
+                <div class="controls">
+                <label for="note">{%trans "If the project is public access, you can add AnonymousUser." %}</label> 
+                <label for="note">{%trans "AnonymousUser can has access and config privilege, others no use." %}</label> 
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls span5">
+                    <table class="table table-bordered table-striped " id="permstable" name="permstable">
+                        <thead>
+                            <tr>
+                                <th>{% trans "User" %}</th>
+                                <th>{% trans "Access" %}</th>
+                                <th>{% trans "Config" %}</th>
+                                <th>{% trans "Execute" %}</th>
+                                <th>{% trans "Manage" %}</th>
+                                <th>{% trans "All" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for k,v in user_perms.items %}
+                            <tr id="tr{{ k.pk }}" class="tableRow">
+                                <td>{{ k.username }}</td>
+                                {% if 'access_proj' in v %}<td><input type="checkbox" checked="True" name="access_proj@{{ k.pk }}"></td>{% else %}<td><input type="checkbox" name="access_proj@{{ k.pk }}"></td>{% endif %}
+                                {% if 'config_proj' in v %}<td><input type="checkbox" checked="True" name="config_proj@{{ k.pk }}"></td>{% else %}<td><input type="checkbox" name="config_proj@{{ k.pk }}"></td>{% endif %}
+                                {% if 'execute_proj' in v %}<td><input type="checkbox" checked="True" name="execute_proj@{{ k.pk }}"></td>{% else %}<td><input type="checkbox" name="execute_proj@{{ k.pk }}"></td>{% endif %}
+                                {% if 'manage_proj' in v %}<td><input type="checkbox" checked="True" name="manage_proj@{{ k.pk }}"></td>{% else %}<td><input type="checkbox" name="manage_proj@{{ k.pk }}"></td>{% endif %}
+                                <td><input type="checkbox" id="check_all" name="checkboxall" onClick='checkall("{{ k.pk }}")'></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<script type="text/javascript">
+    function checkall(checkname){
+        if($("#tr"+checkname).find("input[name='checkboxall']").prop('checked') == false){
+        $("#tr"+checkname).find("input[type='checkbox']").each(function(){
+            $(this).prop('checked',false);
+            });
+        }
+        else{
+        $("#tr"+checkname).find("input[type='checkbox']").each(function(){
+            $(this).prop('checked',true);
+            });
+        }
+    };
+
+$(function(){
+        $("#adduser")
+          .button()
+          .click(function(){
+              var textObj=$("#username");
+              var text=textObj.val();
+              var allusers={{ allusers|safe }};
+              var currentusers=[];
+              $("#permstable tbody tr").each(function(){
+                  currentusers.push($(this).children("td:first").text());
+                  });
+              if (text != ""){
+                  for(var i=0;i<currentusers.length;i++)
+                  {
+                      if( currentusers[i] == text)
+                      {
+                          alert("User is existed!")
+                          return
+                      }
+                  }
+                  for(var i=0;i<allusers.length;i++)
+                  {
+                      if(allusers[i]['username'] == text)
+                      {
+                          $("#permstable tbody").append("<tr id=\"tr"+allusers[i]['id']+"\" class=\"tableRow\">"+
+                                  "<td>"+text+"</td>"+
+                                  "<td><input type=\"checkbox\" name=\"access_proj@"+allusers[i]['id']+"\"></td>"+
+                                  "<td><input type=\"checkbox\" name=\"config_proj@"+allusers[i]['id']+"\"></td>"+
+                                  "<td><input type=\"checkbox\" name=\"execute_proj@"+allusers[i]['id']+"\"></td>"+
+                                  "<td><input type=\"checkbox\" name=\"manage_proj@"+allusers[i]['id']+"\"></td>"+
+                                  "<td><input type=\"checkbox\" name=\"checkboxall\" onClick='checkall("+allusers[i]['id']+")'></td>"+
+                                  "</tr>"
+                                  )
+                      }
+                  }
+              }
+            });
+
+})
+
+</script>   
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>{{ view_user.username }}{% trans "'s Profile" %}</h3>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+            <a href="{% url 'profile' view_user.username  %}">{% trans "Profile" %}</a>
+            </li>
+            {% if login_user == view_user %}
+            <li><a href="{% url 'credential' user.username  %}">{% trans "Credential" %}</a></li>
+            {% endif %}
+        </ul>
+
+        <form id="frmProject" class="form-horizontal" action="{{ action }}" method="post">
+            {% csrf_token %}
+            {% if login_user == view_user %}
+            <fieldset>
+                <legend>{% trans "Basic" %}</legend>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Username" %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" readonly="readonly" required="required" class="span3" value="{{ view_user.username }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "First Name" %}</label>
+                    <div class="controls">
+                        <input name="first_name" type="text"  class="span3" placeholder="First Name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Last Name" %}</label>
+                    <div class="controls">
+                        <input name="last_name" type="text"  class="span3" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Email" %}</label>
+                    <div class="controls">
+                        <input name="email" type="text" class="span3" value="{{ view_user.email }}" placeholder="some@email.com">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>{% trans "Extend" %}</legend>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "CN Name" %}</label>
+                    <div class="controls">
+                        <input name="cn" type="text" required="required" class="span3" placeholder={{ profile.cn_name }}>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Phone NO" %}</label>
+                    <div class="controls">
+                        <input name="phone" type="text"  class="span3" placeholder={{ profile.phonenum }}>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                </div>
+            </div>
+            {% else %}
+            <fieldset>
+                <legend>{% trans "Basic" %}</legend>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Username" %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" readonly="readonly" required="required" class="span3" value="{{ view_user.username }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "First Name" %}</label>
+                    <div class="controls">
+                        <input name="first_name" type="text" readonly="readonly" class="span3" placeholder="First Name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Last Name" %}</label>
+                    <div class="controls">
+                        <input name="last_name" type="text"  readonly="readonly" class="span3" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Email" %}</label>
+                    <div class="controls">
+                        <input name="email" type="text" class="span3" readonly="readonly" value="{{ view_user.email }}" placeholder="some@email.com">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>{% trans "Extend" %}</legend>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "CN Name" %}</label>
+                    <div class="controls">
+                        <input name="cn" type="text" readonly="readonly" class="span3" placeholder={{ profile.cn_name }}>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >{% trans "Phone NO" %}</label>
+                    <div class="controls">
+                        <input name="phone" type="text"  readonly="readonly" class="span3" placeholder={{ profile.phonenum }}>
+                    </div>
+                </div>
+            </fieldset>
+            {% endif %}
+        </form>
+
+
+    </div>
+
+{% endblock %}

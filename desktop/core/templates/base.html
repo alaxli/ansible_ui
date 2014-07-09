@@ -1,0 +1,176 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <title>{% trans "Ansible UI" %}</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link type="text/css" href="/static/ext/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="/static/ext/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link type="text/css" href="/static/ext/css/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="/static/ext/css/jquery-ui.css" rel="stylesheet">
+    <link type="text/css" href="/static/css/portal.css" rel="stylesheet">
+
+
+
+
+    <script src="/static/ext/js/jquery/jquery-1.8.1.min.js"></script>
+    <script src="/static/ext/js/jquery/jquery-ui.min.js"></script>
+    <script src="/static/ext/js/jquery/jquery.bsFormAlerts.min.js"></script>
+    <script src="/static/ext/js/jquery/plugins/jquery.validate.min.js"></script>
+    <!--script src="/static/ext/js/jquery/plugins/jquery.validate.messages_zh.js"></script-->
+    <script src="/static/ext/js/bootstrap.min.js"></script>
+    <script src="/static/ext/js/highcharts.js"></script>
+
+
+
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            $(".navbar .nav-tooltip").tooltip({
+                delay:0,
+                placement:'bottom'});
+        });
+    </script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/static/ext/js/html5.js"></script>
+    <![endif]-->
+    <!--[if IE 7]>
+        <link type="text/css" rel="stylesheet" href="/static/ext/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            padding-bottom: 40px; /* 60px to make the container go all the way to the bottom of the topbar */
+         /*   background: url(/static/img/background.jpg); */
+            font-family:微软雅黑;
+        } 
+        @media (max-width:979px){
+            body {
+                padding-top: 0;
+            }
+        }
+
+         input[type=search] {
+            width: 150px;
+            -moz-transition: width 0.5s ease-out;
+            -webkit-transition: width 0.5s ease-out;
+            transition: width 0.5s ease-out;
+        }
+         input[type=search]:focus {
+            width: 200px;
+            -moz-transition: width 0.5s ease-out;
+            -webkit-transition: width 0.5s ease-out;
+            transition: width 0.5s ease-out;
+        }
+      .footer {
+          text-align:center; 
+          margin:0 auto;
+          margin-top:50px; 
+          padding:30px 0; 
+          clear:both; 
+          overflow:hidden; 
+          color:#838383;
+      }
+      table.table.table-border {
+        border: 2px double #ebebeb;
+      }
+
+    </style>
+</head>
+<body>
+{% trans "Ansible UI" as uHome %}
+{% trans "beta" as ubeta %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+            <a class="brand nav-tooltip" title="Home" href="/">
+                {{ uHome }} 
+                <small class="text-info"><sup>{{ ubeta }}</sup></small>
+            </a>
+
+            {% trans "User" as uUser %}
+            {% trans "Projects" as uProjects %}
+            {% trans "Help" as uHelp %}
+            {% trans "Wiki" as uWiki %}
+            {% trans "AnsibleDocs" as uAnsibleDocs %}
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li>
+		    <a class="nav-tooltip" title="Projects" href="/ansible">{{ uProjects }}</a>
+                    </li>
+
+                    <li class="divider-vertical"></li>
+                    <li>
+                    <a class="nav-tooltip" title={{ uUser }} href="/account">{{ uUser }}</a>
+                    </li>
+                    <li class="divider-vertical"></li>
+
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ uHelp }}<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                        <li><a tabindex="-1" href="http://docs.ansible.com/" target="_blank">{{ uAnsibleDocs }}</a></li>
+                    </ul>
+                    </li>
+                </ul>
+
+
+            <ul class="nav pull-right">
+                <!--
+                <li>
+                    <form class="navbar-form">
+                        <div class="input-prepend">
+                            <span class="add-on">
+                                <i class="icon-search"></i>
+                            </span>
+                            <input type="search" placeholder="Search" name="search" id="search" />
+                        </div>
+                    </form>
+
+                </li>
+                 -->
+                <li>
+                <a href="{% url "profile" user.username %}" class="nav-tooltip" title={% trans "MyProfile" %}><i class="icon-user"></i>
+                    </a>
+                </li>
+                <li>
+                <a href="{% url "desktop.core.views.settings" %}" class="nav-tooltip" title={% trans "Settings" %}><i class="icon-cog"></i>
+                    </a>
+                </li>
+                <li>
+                <a href="{% url "desktop.core.auth.views.dt_logout" %}" class="nav-tooltip" title={% trans "logout" %}><i class="icon-signout"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </div> <!-- div nav-collapse-->
+    </div> <!-- div container -->
+</div> <!-- div navbarinner -->
+</div> <!-- div nav -->
+<div class="container">
+    {% block content %}content{% endblock %}
+</div>
+
+<div class="footer">
+    &copy; 2014 {% trans "Alex Li" %}
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(".alert").alert()
+    })
+</script>
+</body>
+</html>

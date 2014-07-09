@@ -1,0 +1,373 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="page-header">
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+                <span class="divider">/</span>
+                <span>Execute <small>Job</small></span>
+            </h3>
+        </div>
+        <form id="frmPlaybook" class="form-horizontal" action="{{ action }}" method="post">
+            {% csrf_token %}
+
+
+            <div class="row">
+            <div class="span3">
+                <div class="box well">
+                    <header>
+                        <h5>Vars</h5>
+                    </header>
+                    <div class="body">
+                        <ul>
+                            {% for item in project.available_varfiles %}
+
+                                <li class="var">{{ item }}</li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="box well">
+                    <header>
+                        <h5>Playbooks</h5>
+                    </header>
+                    <div class="body">
+                        <ul>
+                            {% for item in project.available_playbooks %}
+
+                                 <li class="playbook">{{ item }}</li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="span9">
+
+                <div class="box well">
+
+                    <div class="control-group">
+                        <label class="control-label">{% trans "Select Inventory" %}</label>
+                        <div class="controls">
+                            <select name="inventory" class="span3">
+                                <option><--None--></option>
+                                {% for item in project.available_inventories %}
+                                    <option {% if item == template.inventory %} selected="selected" {% endif %} value="{{ item }}">{{ item }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" >{% trans "Hosts" %}</label>
+                        <div class="controls">
+                            <input name="hosts" type="text" required="required" class="span3" placeholder="host name or group name" value="{{ template.hosts }}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" >{% trans "User" %}</label>
+                        <div class="controls">
+                            <input name="user" type="text" required="required" class="span3" value="{{ template.user }}" placeholder="root">
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="control-group">
+                        <label class="control-label" for="inputPlaybook">{% trans "Vars" %}</label>
+                        <div class="controls">
+                            <textarea id="var_files" name="var_files" class="span3">{{ template.vars_files }}</textarea>
+                            <span class="help-block">{% trans "Drag the <b>var</b> item to here" %}</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label text-error">{% trans "Package" %}</label>
+                        <div class="controls">
+                            <div class="input-addpend">
+                                <input id="packageselect" name="packageselect" type="text" class="span3">
+                                <button id="select-package" class="btn" type="button">{% trans "Select" %}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" >{% trans "Tasks" %}</label>
+                        <div class="controls">
+                            <textarea name="tasks" id="tasks" required="required" class="span6" rows="10">{{ template.playbook }}</textarea>
+                            <span class="help-block muted">{% trans "Drag the <b>Playbook</b> item to here" %}</span>
+                        </div>
+                    </div>
+
+
+
+                        <div id="div_template_name" class="control-group"  {% if template.pk %} style="display:display" {% else %} style="display:none" {% endif %}>
+                            <label class="control-label" >{% trans "Template Name" %}</label>
+                            <div class="controls">
+                                <input name="template_name" type="text" required="required" class="span3" placeholder="Template name" value="{{ template.name }}">
+                            </div>
+                        </div>
+
+
+
+                    <div class="accordion" id="ad_container">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#ad_container" href="#ad_collapse">
+                                    {% trans "Advantage Settings" %}
+                                </a>
+                            </div>
+                            <div id="ad_collapse" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <div class="control-group" id="use_sudo">
+                                        <label class="control-label" >Use sudo</label>
+                                        <div class="controls">
+                                            <input name="use_sudo" id="sudo_checkbox" type="checkbox" {% if template.use_sudo %} checked="checked" {% endif %}/>
+                                        </div>
+
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Forks</label>
+                                        <div class="controls">
+                                            <input name="forks" type="text"  class="span1" value="{{ template.forks }}">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Limit</label>
+                                        <div class="controls">
+                                            <input name="limit" type="text"  class="span3" value="{{ template.limit }}">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" >Check Model</label>
+                                        <div class="controls">
+                                            <input name="job_type" type="checkbox" {% if template.job_type %} checked="checked" {% endif %}/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputPlaybook">Extra Vars</label>
+                                        <div class="controls">
+                                            <textarea name="extra_vars"  required="required" class="span3" > </textarea>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="accordion" id="email_container">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#email_container" href="#email_collapse">
+                                    {% trans "Email Notice" %}
+                                </a>
+                            </div>
+                            <div id="email_collapse" class="accordion-body collapse">
+                                    <div class="control-group">
+                                        <label class="control-label">{% trans "Email" %}</label>
+                                        <div class="controls">
+                                            <input name="email" type="text"  class="span3" value="{{ template.email }}">
+                                            <span class="help-block">{% trans "Input users' email, use comma to separate" %}</span>
+                                        </div>
+                                    </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="hidden" name="template_pk" value="{{ template_pk }}">
+                            <button type="button" id="btn_execute" class="btn btn-primary">{% trans "Execute" %}</button>
+                            <button type="button" id="btn_save" class="btn">{% if template.pk %}{% trans "Save as Template" %}{% else %}{% trans "Save" %}{% endif %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dialog-form" title={% trans "PackageSelect" %}>
+            <form>
+                <fieldset>
+                    <table id="packagetable">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+        </form>
+
+    </div>
+    <style type="text/css">
+        .over {
+            background-color: #f5f5f5;
+        }
+
+        .out {
+            background-color: #ffffff;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            var playbook;
+            $(".playbook").draggable({
+                cursor: 'move',
+                revert: true,
+                start:function(){
+                    playbook = $(this).html()
+                },
+                stop:function(){
+                    playbook = ""
+                }
+            });
+            $("#tasks").droppable({
+                over: function() {
+                    $(this).removeClass('out').addClass('over');
+                },
+                out: function() {
+                    $(this).removeClass('over').addClass('out');
+                },
+                drop: function() {
+                    if(playbook != ""){
+                       var tasks = $(this).val()
+                       tasks  =tasks + playbook + "\n"
+                       $(this).val(tasks)
+                    }
+                    $(this).removeClass('over').addClass('out');
+                }
+            });
+
+            var var_file;
+            $(".var").draggable({
+                cursor: 'move',
+                revert: true,
+                start:function(){
+                    var_file = $(this).html()
+                },
+                stop:function(){
+                    var_file = ""
+                }
+            });
+            $("#var_files").droppable({
+                over: function() {
+                    $(this).removeClass('out').addClass('over');
+                },
+                out: function() {
+                    $(this).removeClass('over').addClass('out');
+                },
+                drop: function() {
+                    if(var_file != ""){
+                        var vars = $(this).val()
+                        vars  =vars + var_file + "\n"
+                        $(this).val(vars)
+                    }
+                    $(this).removeClass('over').addClass('out');
+                }
+            });
+            $("#sudo_checkbox").click(function(){
+                if($("#use_sudo input").attr("checked") == "checked"){
+                var use_sudo = "\n" + '<div id="sudo_password" class="control-group">\n' +
+                                        '<label class="control-label" for="inputPlaybook">sudo password</label>\n'+
+                                        "<div class='controls'>\n"+
+                                            "<input name='sudo_password' type='password' required='required' class='span3' > </textarea>\n"+
+                                        "</div>\n"+
+                                    "</div>"
+                $("#use_sudo").after(use_sudo);
+                }
+                else {
+                    $("#sudo_password").remove();    
+                }
+            });
+
+
+           var packagetable=$("#packagetable"),
+               allFields = $([]).add(packagetable);
+           var js_list = {{ package_json|safe }};
+
+           $("#dialog-form").dialog({
+             autoOpen: false,
+             width: 600,
+             modal: true,
+             open: function(){
+                  for (item in js_list){
+                        $("#packagetable tbody").append("<label class=\"radio\">"+
+                            "<input type=\"radio\" name=\"optionsRadios\" value=\""+
+                            js_list[item]['version'] + "\">"+
+                             "Version : "  + js_list[item]['version'] +
+                             "  ,  Date : " + js_list[item]['date'] +
+                            "</label>");
+
+                  }
+                 
+                 },
+             buttons:{
+                 {% trans "OK" %}:function(){
+                 var bValid=true;
+                 allFields.removeClass("ui-state-error");
+                 if (bValid){
+                     txt=[];
+                     $("#packagetable tbody input[name='optionsRadios']:checked").each(function(){
+                             txt.push($(this).val());
+                                 });
+                     $("#packageselect").val(txt);
+                     $(this).dialog("close");
+                     }
+                 },
+
+                 {% trans "Cancel" %}:function(){
+                    $(this).dialog("close");
+                 }
+             },
+
+             close: function(){
+                    $("#packagetable tbody").empty();
+                    allFields.removeClass("ui-state-error");
+             }
+           });
+
+           $("#select-package")
+             .button()
+             .click(function(){
+                     $("#dialog-form").dialog("open");
+             });
+         });
+
+       $(function(){
+
+           $("#btn_execute").unbind("click").click(function(){
+               $("#frmPlaybook").attr('action','{{action}}');
+               $("#frmPlaybook").submit();
+           })
+
+           $("#btn_save").unbind("click").click(function(){
+               if($("#div_template_name").is(":visible")){
+
+                   $("#frmPlaybook").attr('action','{% url 'save_template' project.name %}');
+                   $("#frmPlaybook").submit();
+
+               }else{
+                   $("#div_template_name").show('slow')
+                   $("#btn_save").text('Save as Template');
+               }
+           })
+           
+
+         //  $("#select-package")
+         //    .button()
+         //    .click(function(){
+         //            $("#dialog-form").dialog("open");
+         //    });
+
+       })
+
+    </script>
+{% endblock %}

@@ -1,0 +1,6 @@
+- hosts  : 10.204.8.228 
+  sudo   : yes
+  user   : root 
+  tasks  : 
+      - name: execute script 
+        action: script /letv/deploy/projects/demo/.tmp/48a4ab40-0195-11e4-9dfe-fa163e8affba.sh  

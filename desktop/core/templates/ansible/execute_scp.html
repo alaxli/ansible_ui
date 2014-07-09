@@ -1,0 +1,153 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="page-header">
+            <h3>
+                <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+                <span class="divider">/</span>
+                <span>Execute Scp</span>
+            </h3>
+        </div>
+        <form id="frmProject" class="form-horizontal" enctype="multipart/form-data" action="{{ action }}" method="post">
+            {% csrf_token %}
+
+            <div class="box well">
+
+                <div class="control-group">
+                    <label class="control-label">Select Inventory</label>
+                    <div class="controls">
+                        <select name="inventory" class="span3">
+                            <option><--None--></option>
+                            {% for item in project.available_inventories %}
+                                <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >Hosts</label>
+                    <div class="controls">
+                        <input name="hosts" type="text" required="required" class="span3" placeholder="host name or group name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >User</label>
+                    <div class="controls">
+                        <input name="user" type="text" required="required" class="span3" placeholder="search, root ">
+                    </div>
+                </div>
+                <div class="control-group" id="use_sudo">
+                    <label class="control-label" >Use sudo</label>
+                    <div class="controls">
+                        <input name="use_sudo" id="sudo_checkbox" type="checkbox" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Forks</label>
+                    <div class="controls">
+                        <input name="forks" type="text"  class="span1" value="0">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >Src</label>
+                    <div class="controls">
+                        <input name="src" type="file">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >Dest</label>
+                    <div class="controls">
+                        <input name="dest" type="text" required="required" class="span3">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Owner</label>
+                    <div class="controls">
+                        <input name="owner" type="text" value="search"  class="span1">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Group</label>
+                    <div class="controls">
+                        <input name="group" type="text" value="search"  class="span1">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Mode</label>
+                    <div class="controls">
+                        <input name="mode" type="text"  value="0644"  class="span1">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn">Save</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+    <style type="text/css">
+        .over {
+            background-color: #f5f5f5;
+        }
+
+        .out {
+            background-color: #ffffff;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var playbook;
+            $(".playbook").draggable({
+                cursor: 'move',
+                revert: true,
+                start:function(){
+                    playbook = $(this).html()
+                },
+                stop:function(){
+                    playbook = ""
+                }
+            });
+            $("#tasks").droppable({
+                over: function() {
+                    $(this).removeClass('out').addClass('over');
+                },
+                out: function() {
+                    $(this).removeClass('over').addClass('out');
+                },
+                drop: function() {
+                    if(playbook != ""){
+                       var tasks = $(this).val()
+                       tasks  =tasks + playbook + "\n"
+                       $(this).val(tasks)
+                    }
+                    $(this).removeClass('over').addClass('out');
+                }
+            })
+            $("#sudo_checkbox").click(function(){
+                if($("#use_sudo input").attr("checked") == "checked"){
+                var use_sudo = "\n" + '<div id="sudo_password" class="control-group">\n' +
+                                        '<label class="control-label" for="inputPlaybook">sudo password</label>\n'+
+                                        "<div class='controls'>\n"+
+                                            "<input name='sudo_password' type='password' class='span3' > </textarea>\n"+
+                                        "</div>\n"+
+                                    "</div>"
+                $("#use_sudo").after(use_sudo);
+                }
+                else {
+                    $("#sudo_password").remove();    
+                }
+            })
+         })
+    </script>
+{% endblock %}

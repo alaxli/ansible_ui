@@ -1,0 +1,154 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+          <h3>
+            <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+            <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+            <span class="divider">/</span>
+            <span>{% trans "Deploy SSHKey" %}</span>
+          </h3>
+        </div>
+
+        <form id="frmProject" class="form-horizontal" method="post">
+            {% csrf_token %}
+            {% if page_errors %}
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>ERROR!</strong>
+                    Invalid username or password
+
+                </div>
+            {% endif %}
+
+            <div class="control-group">
+                <label class="control-label">{% trans "Select Inventory" %} </label>
+                <div class="controls">
+                     <select id="inventory" name="inventory" class="span3">
+                          <option><--None--></option>
+                          {% for item in project.available_inventories %}
+                              <option value="{{ item }}">{{ item }}</option>
+                          {% endfor %}
+                     </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">{% trans "Hosts" %} </label>
+                <div class="controls">
+                    <input id="hosts" name="hosts" type="text" required="required" class="span3" placeholder="host name or group name" >
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" >{% trans "User" %}</label>
+                <div class="controls">
+                    <input id="user" name="user" type="text" required="required" class="span3"  placeholder="root">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" >{% trans "Password" %}</label>
+                <div class="controls">
+                    <input id="password" name="password" type="password" class="span3" >
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">{% trans "SSH Public Key" %}  </label>
+                <div class="controls">
+                    <div id="sshkeyarea" class="input-append">
+                        <textarea id="sshkey" name="sshkey" type="text" required="required" class="span9" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button id="button_deploykey" type="button" class="btn btn-primary">{% trans "Submit" %}</button>
+                </div>
+            </div>
+
+
+
+            <div class="control-group">
+                <label class="control-label">{% trans "Result" %}</label>
+                <div class="controls span9">
+                    <pre id="result_deploykey" class="prettyprint lang-yaml">
+                    </pre>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+<script>
+$(document).ajaxSend(function(event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+});
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#button_deploykey").click(function(event){
+            if ( !$("#frmProject").valid() ){
+                return
+            }
+            $("#result_deploykey").html("Please Wait ....");
+            $.ajax({
+                type:"POST",
+                url: "/ansible/"+ "{{project.name|safe}}" +"/deploykey",
+                data: {
+                        inventory: $("#inventory").val(),
+                        hosts: $("#hosts").val(),
+                        user: $("#user").val(),
+                        password: $("#password").val(),
+                        sshkey: $("#sshkey").val()
+                      },
+                success: function(data) {
+                   $("#result_deploykey").empty();
+                   console.log(data)
+                   for(var key in data[0]){
+                       $("#result_deploykey").append(data[0][key]+"<br/>")
+                   }
+                }
+            });
+       });
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+
+            <h3>
+                <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+                <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+                <span class="divider">/</span>
+                <span>{% trans "Explore" %}</span>
+            </h3>
+        </div>
+        <div id="elfinder"></div>
+    </div>
+
+
+
+    <!-- jQuery and jQuery UI (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/ext/css/jquery-ui.css">
+
+    <!-- elFinder CSS (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/ext/css/elfinder.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/ext/css/elfinder.theme.css">
+
+    <!-- elFinder JS (REQUIRED) -->
+    <script type="text/javascript" src="/static/ext/elfinder/js/elfinder.min.js"></script>
+    <script type="text/javascript" src="/static/ext/elfinder/js/i18n/elfinder.zh_CN.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+        $().ready(function() {
+            $('#elfinder').elfinder({
+                url : '{% url 'ElfinderConnector' project_name=project.name optionset='default' start_path='default' %}',  // connector URL (REQUIRED)
+                lang : 'zh_CN',
+            }).elfinder('instance');
+        });
+    </script>
+
+{% endblock %}

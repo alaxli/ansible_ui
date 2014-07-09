@@ -1,0 +1,67 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <span>{% trans "Projects" %}</span>
+                <span class="pull-right">
+                    <a href="{% url 'add_project' %}" class="btn btn-small btn-primary"><i class="icon-plus"></i> {% trans "New Project" %}</a>
+                </span>
+            </h3>
+        </div>
+
+    <div class="box">
+        <ul class="nav nav-tabs">
+            <li>
+              <a href="{% url 'list_projects' %}">{% trans "All" %}</a>
+            </li>
+            {% for item in groups %}
+              {% if item == group %}<li class="active">{% else %}<li>{% endif %}
+              <a href="{% url 'list_projects_group' item %}"> {{ item }}</a>
+            </li>
+            {% endfor %}
+       </ul>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th width="10%">{% trans "Project Name" %}</th>
+                <th width="30%">{% trans "Description" %}</th>
+                <th width="10%">{% trans "SCM Type" %}</th>
+                <th width="10%">{% trans "Created User" %}</th>
+                <th width="20%">{% trans "Operation" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in projects %}
+                <tr id="tr{{ item.pk }}" class="tableRow">
+                    <td><strong><a href="{% url 'view_project' item.name %}"> {{ item.name }}</a></strong></td>
+                    <td>{{ item.description|linebreaks }}</td>
+                    <td>{{ item.scmtype }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>
+                        <a href="{% url 'edit_project' item.id %}"><i class="icon-edit"></i> {% trans "Edit" %}</a>
+                        | <a href="javascript:void(0)" onclick="delete_project('{% url 'delete_project' item.name %}',{{ item.pk }})"><i class="icon-trash"></i> {% trans "Delete" %}</a>
+                       | <a href="{% url 'manage_project' item.pk %}"><i class="icon-wrench"></i> {% trans "Manage" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div> <!-- end div box -->
+    </div>
+
+    <script type="text/javascript">
+    function delete_project(url,pk){
+        if(confirm("are you sure to delete ?")){
+            jQuery.get(url,function(data){
+                if(data=true){
+                    $("#tr"+pk).hide('slow',function(){
+                        $(this).remove()
+                    })
+                }
+            })
+        }
+    }
+    </script>
+
+{% endblock %}

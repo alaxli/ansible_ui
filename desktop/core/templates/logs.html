@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Log entries (most recent first)</h1>
+
+        <div>
+            {% for l in log %}
+                <pre>{{l}}</pre>
+            {% endfor %}
+        </div>
+
+        <div class="alert-actions">
+            <a class="btn small" href="javascript:window.history.back(-1)">Go back</a>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
