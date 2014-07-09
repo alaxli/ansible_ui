@@ -1,5 +1,0 @@
-- hosts  : test 
-  user   : root 
-  tasks  : 
-      - name: execute script 
-        action: copy src=/letv/deploy/desktop/core/tmp dest=/tmp/ owner=search group=search mode=644

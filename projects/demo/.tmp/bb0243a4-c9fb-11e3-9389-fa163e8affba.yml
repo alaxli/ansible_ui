@@ -1,4 +1,0 @@
-- hosts  : test 
-  user   : root 
-  tasks  : 
-     - include : /letv/deploy/projects/demo/playbooks/ping.yml
