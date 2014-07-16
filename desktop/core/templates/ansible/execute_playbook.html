@@ -178,11 +178,34 @@
                                             <span class="help-block">{% trans "Input users' email, use comma to separate" %}</span>
                                         </div>
                                     </div>
-
                             </div>
-
                         </div>
-                    </div>
+                    </div> <!-- end email_container -->
+
+                    <div class="accordion" id="timer_container">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#timer_container" href="#timer_collapse">
+                                    {% trans "Schedule" %}
+                                </a>
+                            </div>
+                            <div id="timer_collapse" class="accordion-body collapse">
+                                    <div class="control-group">
+                                        <label class="control-label">{% trans "Time" %}</label>
+                                        <div class="controls">
+                                            <div id="datetimepicker" class="input-append date">
+                                              <input name="timer" data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
+                                              <span class="add-on">
+                                                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                                              </span>
+                                            </div>
+                                            <span class="help-block">{% trans "Set the time of the task would be executed " %}</span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div> <!-- end timer_container -->
+
                     <div class="control-group">
                         <div class="controls">
                             <input type="hidden" name="template_pk" value="{{ template_pk }}">
@@ -360,12 +383,9 @@
                }
            })
            
-
-         //  $("#select-package")
-         //    .button()
-         //    .click(function(){
-         //            $("#dialog-form").dialog("open");
-         //    });
+           $('#datetimepicker').datetimepicker({
+               language: 'zh_CN',
+           });
 
        })
 

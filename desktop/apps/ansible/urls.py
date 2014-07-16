@@ -23,9 +23,11 @@ urlpatterns += patterns('desktop.apps.ansible.views',
     url(r'^(?P<project_name>%s)/files/(?P<path>.+)' % name_re,'elfinder_view_file',name='elfinder_view_file'),
     url(r'^(?P<project_name>%s)/file/(?P<type>%s)/(?P<path>.+)' % (name_re,name_re),'view_file',name='view_file'),
     url(r'^(?P<project_name>%s)/explore' % name_re,'explore',name='explore'),
-    url(r'^(?P<project_name>%s)/delete' % name_re,'delete_project',name='delete_project'),
+    url(r'^(?P<project_name>%s)/delete$' % name_re,'delete_project',name='delete_project'),
+    url(r'^(?P<project_name>%s)/deletejob$' % name_re,'delete_job',name='delete_job'),
 
     url(r'^(?P<project_name>%s)/deploykey' % name_re,'deploykey',name='deploykey'),
+    url(r'^(?P<project_name>%s)/schedule' % name_re,'schedule',name='schedule'),
 
     url(r'^(?P<project_name>%s)/execute/playbook/(?P<template_pk>%s)$' % (name_re,id_re),'execute_playbook',name='execute_playbook_template'),
     url(r'^(?P<project_name>%s)/execute/playbook$' % name_re,'execute_playbook',name='execute_playbook'),

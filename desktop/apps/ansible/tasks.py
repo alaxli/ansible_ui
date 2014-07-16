@@ -77,12 +77,12 @@ def sendmail(email, status, job_pk, project_name):
     subject = "Deploy Task Notice"
     msg['subject'] = Header(subject,'utf-8')
     
-    sender= 'ansible@youremail.domain'
+    sender= settings.MAIL_SENDER
     receivers = email.split(',')
     msg['From'] = sender
     msg['To'] = ','.join(receivers)
 
-    smtpObj = smtplib.SMTP('yourmail.domain')
+    smtpObj = smtplib.SMTP(settings.MAIL_SMTP)
     smtpObj.sendmail(sender, receivers, msg.as_string())
     LOG.info("Successfully send email")
     smtpObj.quit()

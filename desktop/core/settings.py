@@ -148,7 +148,7 @@ LOCALE_PATHS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'desktop.core.auth.backend.LdapBackend',
+    #'desktop.core.auth.backend.LdapBackend',
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
     )

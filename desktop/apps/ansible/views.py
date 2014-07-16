@@ -39,7 +39,7 @@ from django.db.models import Max
 
 from django.core import urlresolvers
 from django.conf import settings
-import time,uuid
+import time,uuid,datetime
 import re
 import os
 import ntpath
@@ -149,6 +149,7 @@ def execute_playbook(request, project_name,template_pk=None):
         package_version = request.POST.get('packageselect')
         email = request.POST.get('email')
         #package_file = project_name + "_" + package_version + ".tar.gz"
+        timer = request.POST.get('timer')
 
         if inventory == '<--None-->':
             file_content = request.POST.get('hosts')
@@ -188,7 +189,14 @@ def execute_playbook(request, project_name,template_pk=None):
 
         file_path = create_tmp_task_file(project_name,file_name,file_content)
 
+        countdown = 0
         now = time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
+        if timer:
+            execute_date = datetime.datetime.strptime(timer,"%d/%m/%Y %H:%M:%S")
+            if execute_date > datetime.datetime.now():
+                countdown = (execute_date - datetime.datetime.now()).seconds
+        else:
+            execute_date =  datetime.datetime.now()
 
         job = Job()
 
@@ -209,6 +217,8 @@ def execute_playbook(request, project_name,template_pk=None):
             job.sudo_password = sudo_password
         if email != "":
             job.email = email
+        job.countdown = countdown
+        job.execute_date = execute_date
 
         job.save()
         job_pk=job.pk
@@ -699,7 +709,7 @@ def manage_project(request,project_id=""):
 def deploykey(request,project_name):
     user = request.user
     project = Project.objects.get(name = project_name)
-    if ( user.has_perm('execute_proj',project) == False ):
+    if ( user.has_perm('manage_proj',project) == False ):
         raise PopupException('Sorry, you have not right to execute the project!')
 
     result = []
@@ -738,3 +748,31 @@ def deploykey(request,project_name):
         'page_errors':page_errors,
         'request': request,
         })
+
+def schedule(request,project_name):
+    user = request.user
+    project = Project.objects.get(name=project_name)
+    if ( user.has_perm('execute_proj',project) == False ):
+        raise PopupException('Sorry, you have not right to execute the project!')
+    jobs = Job.objects.filter(project=project).filter(status='pending').exclude(countdown= 0)
+    return render("ansible/schedule.html",request,{
+        'project': project,
+        'jobs' : jobs,
+        'request': request,
+        })
+
+
+def delete_job(request,project_name):
+    user = request.user
+    project = Project.objects.get(name = project_name)
+    if ( user.has_perm('execute_proj',project) == False ):
+        raise PopupException('Sorry, you have not right to manage the project!')
+
+    data=False
+    try:
+        job_pk = request.GET.get('job_pk')
+        Job.objects.get(pk=job_pk).delete()
+        data=True
+    except Exception:
+        data=False
+    return render_json(data)

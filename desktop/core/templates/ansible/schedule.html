@@ -1,0 +1,57 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h3>
+              <i class="icon-desktop icon-2x pull-left icon-muted"></i>
+              <a href="{% url 'view_project' project.name %}">{{ project.name }}</a>
+              <span class="divider">/</span>
+              <span>{% trans "Schedule" %}</span>
+            </h3>
+        </div>
+
+    <div class="box">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th width="20%">{% trans "JOb Name" %}</th>
+                <th width="20%">{% trans "Create Date" %}</th>
+                <th width="20%">{% trans "Schedule Date" %}</th>
+                <th width="10%">{% trans "Created User" %}</th>
+                <th width="20%">{% trans "Operation" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in jobs %}
+                <tr id="tr{{ item.pk }}" class="tableRow">
+                    <td><a href="{% url 'job_execute_result' project.name item.pk %}"> {{ item.name }}</a></td>
+                    <td>{{ item.creation_date }}</td>
+                    <td>{{ item.execute_date }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>
+                        <a href="javascript:void(0)" onclick="delete_job('{% url 'delete_job' project.name %}',{{ item.pk }})"><i class="icon-trash"></i> {% trans "Delete" %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div> <!-- end div box -->
+    </div>
+
+    <script type="text/javascript">
+    function delete_job(url,pk){
+        if(confirm("are you sure to delete ?")){
+            jQuery.get(url,
+                    {job_pk:pk},
+                    function(data){
+                if(data=true){
+                    $("#tr"+pk).hide('slow',function(){
+                        $(this).remove()
+                    })
+                }
+            })
+        }
+    }
+    </script>
+
+{% endblock %}

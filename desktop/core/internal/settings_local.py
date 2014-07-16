@@ -18,3 +18,6 @@ DATABASES = {
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     },
 }
+
+MAIL_SENDER = "sender@domain.com"
+MAIL_SMTP = "mail.domain.com"

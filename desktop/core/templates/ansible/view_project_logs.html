@@ -7,7 +7,7 @@
             <h3>
                 <i class="icon-desktop icon-2x pull-left icon-muted"></i>
                 {{ project.name }}
-                <a class="pull-right" href="{% url 'explore' project.name %}"><i class="icon-th-large"></i>{% trans "Explore" %}</a>
+                <a class="pull-right" href="{% url 'explore' project.name %}"><i class="icon-th-large"></i> {% trans "Explore" %}</a>
             </h3>
             <p class="muted" style="padding-left: 70px">{{ project.description }}</p>
 
@@ -50,6 +50,9 @@
                        <div class="span3">
                         <a href="{% url 'execute_scp' project.name %}" class="btn btn-primary">{% trans "Execute Scp" %}</a>
                        </div>
+                       <div class="span3">
+                        <a href="{% url 'schedule' project.name %}" class="btn btn-primary">{% trans "Manage Schedule" %}</a>
+                       </div>
                    </div>
                 </div>
 
@@ -87,7 +90,7 @@
                 <div id="hostmgtModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="hostmgtModalLabel" aria-hidden="true" style="position:relative; top:auto; width:400px; height:500px;max-width:100%; max-height:100%">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                        <h3 id="hostmgtModalLabel">Host Management</h3>
+                        <h3 id="hostmgtModalLabel">{% trans "Host Management" %}</h3>
                     </div>
                     <div class="modal-body">
                          <textarea name="hostcontent" style="width:335px; height:350px">{{ hostcontent }}</textarea>
@@ -158,6 +161,7 @@ $(function () {
     $('#packagemgttip').popover();
     $('#datamgttip').popover();
     $('#playbooktip').popover();
+    $('#deploykeytip').popover();
 });
 </script>
 {% endblock %}

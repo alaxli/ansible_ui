@@ -51,6 +51,9 @@
                        <div class="span3">
                         <a href="{% url 'execute_scp' project.name %}" class="btn btn-primary">{% trans "Execute Scp" %}</a>
                        </div>
+                       <div class="span3">
+                        <a href="{% url 'schedule' project.name %}" class="btn btn-primary">{% trans "Manage Schedule" %}</a>
+                       </div>
                     </div>
                 </div>
 
@@ -76,7 +79,7 @@
 
                       <div class="span3">
                         <a href="{% url 'deploykey' project.name %}" class="btn btn-primary">{% trans "Deploy SSHKey" %}</a>
-                        <a href="#" id="deploykeytip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="" title="Note" ><i class="icon-question-sign"></i></a>
+                        <a href="#" id="deploykeytip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="部署免检权密钥到客户机，以使系统可以正常访问客户机" title="Note" ><i class="icon-question-sign"></i></a>
                       </div>
                     </div>
                 </div>
@@ -173,6 +176,7 @@ $(function () {
     $('#packagemgttip').popover();
     $('#datamgttip').popover();
     $('#playbooktip').popover();
+    $('#deploykeytip').popover();
 });
 </script>
     <!-- jQuery and jQuery UI (REQUIRED) -->

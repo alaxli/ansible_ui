@@ -7,7 +7,7 @@ from jsonfield import JSONField
 from djcelery.models import TaskMeta
 
 from desktop.apps.ansible.path_utils import *
-import time
+import time,datetime
 
 # Create your models here.
 
@@ -402,6 +402,11 @@ class Job(CommonModel):
         default='',
         editable=False,
     )
+    countdown = models.IntegerField(default=0)
+    execute_date = models.DateTimeField(
+        blank = True,
+        default = datetime.datetime.now,
+    )
 
     def get_id(self):
         today = time.strftime("%Y%m%d", time.localtime(time.time()))
@@ -436,7 +441,8 @@ class Job(CommonModel):
         args, cwd, env, passwords = buildjob.build()
         #print ' '.join(args)
 
-        task_result = RunJob().delay(self.pk, **opts)
+        #task_result = RunJob().delay(self.pk, **opts)
+        task_result = RunJob().apply_async(args=[self.pk],countdown=self.countdown, kwargs=opts)
         # The TaskMeta instance in the database isn't created until the worker
         # starts processing the task, so we can only store the task ID here.
         self.celery_task_id = task_result.task_id

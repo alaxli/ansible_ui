@@ -3,7 +3,7 @@ django-celery
 django-jsonfield
 django-auth-ldap  
 python-magic
-South==0.7.6
+South
 simplejson
 #pil
 pexpect
