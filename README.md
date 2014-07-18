@@ -31,78 +31,78 @@ Install
 * 添加系统用户
 
     
-    useradd ansible
-    su - ansible
+        useradd ansible
+        su - ansible
 
 
 * 配置virtualenv环境
 
 
-    virtualenv envansible
-    source envansible/bin/active
+        virtualenv envansible
+        source envansible/bin/active
 
 
 * 下载源码
 
 
-    git clone https://github.com/alaxli/ansible_ui.git
+        git clone https://github.com/alaxli/ansible_ui.git
 
 
 * 安装依赖库
 
 
-    cd ansible-ui
-    pip install -r requirements.txt
-    pip install PIL --allow-external PIL --allow-unverified PIL
+        cd ansible-ui
+        pip install -r requirements.txt
+        pip install PIL --allow-external PIL --allow-unverified PIL
     
 
 * 配置ldap、数据库和邮件信息
 
 
-    cd desktop/core/internal
-    vim settings_local.py 
-    # 修改 LDAP Datebase Mail 配置
-    如果需要使用ldap，还需要修改settings.py，去掉下面行的注释
-    #'desktop.core.auth.backend.LdapBackend',
+        cd desktop/core/internal
+        vim settings_local.py 
+        # 修改 LDAP Datebase Mail 配置
+        如果需要使用ldap，还需要修改settings.py，去掉下面行的注释
+        #'desktop.core.auth.backend.LdapBackend',
 
 
 * 配置数据库
 
 
-    create database ansible CHARACTER SET utf8;
-    grant all on ansible.* to ansibleuser@'localhost' identified by '******';
+        create database ansible CHARACTER SET utf8;
+        grant all on ansible.* to ansibleuser@'localhost' identified by '******';
 
 
 * 初始化数据库
 
-    python manage.py schemamigration desktop.apps.account --init
-    python manage.py schemamigration desktop.apps.ansible --init
-    python manage.py syncdb
-    python manage.py migrate ansible
-    python manage.py migrate account
-    python manage.py migrate kombu.transport.django
-    python manage.py migrate djcelery
-    python manage.py migrate guardian
+        python manage.py schemamigration desktop.apps.account --init
+        python manage.py schemamigration desktop.apps.ansible --init
+        python manage.py syncdb
+        python manage.py migrate ansible
+        python manage.py migrate account
+        python manage.py migrate kombu.transport.django
+        python manage.py migrate djcelery
+        python manage.py migrate guardian
 
 
 * 配置celery
 
 
-    修改celery-conf/supervisord.conf
-    [inet_http_server] #配置web管理supervisor
-    [program:ansible_celeryd] #修改command中 virtualenv 和 ansible_ui home
+        修改celery-conf/supervisord.conf
+        [inet_http_server] #配置web管理supervisor
+        [program:ansible_celeryd] #修改command中 virtualenv 和 ansible_ui home
 
 
 * 启动celery
 
 
-    supervisord -c celery-conf/supervisord.conf
+        supervisord -c celery-conf/supervisord.conf
 
 
 * 配置ansible
 
 
-    cp ansible-conf/ansible.cfg ~/.ansible.cfg
+        cp ansible-conf/ansible.cfg ~/.ansible.cfg
 
 
 Run
@@ -110,15 +110,15 @@ Run
 * 直接运行
 
 
-    python manage.py runserver ip:8000
+        python manage.py runserver ip:8000
 
 
 * apache + wsgi
 
-    修改apache-conf/ansible.cfg : ansible_ui_dir，指向实际目录
-    修改django.wsgi : yourvirtualenv 指向实际目录
-    拷贝apache-conf/ansible.cfg 到apache配置目录下
-    重启 httpd
+        修改apache-conf/ansible.cfg : ansible_ui_dir，指向实际目录
+        修改django.wsgi : yourvirtualenv 指向实际目录
+        拷贝apache-conf/ansible.cfg 到apache配置目录下
+        重启 httpd
 
 
 Demo
