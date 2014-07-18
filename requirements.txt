@@ -11,3 +11,5 @@ django-guardian
 celery
 MySQL-python
 python-ldap
+ansible
+supervisor

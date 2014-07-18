@@ -208,7 +208,7 @@ LOGGING = {
         'file_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/tmp/deploy_debug.log',
+            'filename': '/tmp/ansible_debug.log',
             'formatter': 'simple'
         },
     },

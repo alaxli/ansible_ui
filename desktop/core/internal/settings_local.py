@@ -11,13 +11,14 @@ SEARCH_DN = "ou=xxxx,dc=xxxx,dc=xxxx"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'datebase',                      # Or path to database file if using sqlite3.
-        'USER': 'user',                      # Not used with sqlite3.
+        'NAME': 'ansible',                      # Or path to database file if using sqlite3.
+        'USER': 'ansibleuser',                      # Not used with sqlite3.
         'PASSWORD': '****',                  # Not used with sqlite3.
         'HOST': 'localhost',
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     },
 }
 
+# Mail settings
 MAIL_SENDER = "sender@domain.com"
 MAIL_SMTP = "mail.domain.com"
