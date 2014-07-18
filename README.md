@@ -124,7 +124,7 @@ Run
 Demo
 =====
 * http://115.28.87.99:8888 用户名:admin 密码:ansible 
-  由于单核CPU执行任务会失败，而demo服务器为单核CPU，所以demo的任务会执行失败
+   ( 由于单核CPU执行任务会失败，而demo服务器为单核CPU，所以demo的任务会执行失败)
 
 Problem
 =====
