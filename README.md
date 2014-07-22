@@ -124,8 +124,7 @@ Run
 Demo
 =====
 * http://115.28.87.99:8888 用户名:admin 密码:ansible 
-   ( 由于单核CPU执行任务会失败，而demo服务器为单核CPU，所以demo的任务会执行失败)
 
 Problem
 =====
-* 已知问题：在单核CPU服务器上任务无法运行
+* 已知问题：在单核CPU服务器上任务无法运行(在调用pexpect时会报“ValueError: I/O operation on closed file”错误，类似这个[问题](http://stackoverflow.com/questions/24524162/pexpect-runs-failed-when-use-multiprocessing),如果要在单核CPU服务器上运行，请将pexpect将为2.4版本
