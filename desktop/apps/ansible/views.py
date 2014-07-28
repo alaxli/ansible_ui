@@ -721,7 +721,7 @@ def deploykey(request,project_name):
         hosts = request.POST.get('hosts')
         user = request.POST.get('user')
         password = request.POST.get('password')
-        key = request.POST.get('key')
+        key = request.POST.get('sshkey')
         
         if inventory == '<--None-->':
             file_content = hosts
