@@ -401,6 +401,8 @@ def execute_scp(request,project_name):
     })
 
 def elfinder_view_file(request,project_name,path):
+    if path[0] != '/':
+        path = '/' + path
     project = Project.objects.get(name=project_name)
     content = get_project_file_content(project_name,path)
     file_name = ntpath.basename(path)
