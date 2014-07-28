@@ -132,7 +132,8 @@ class BuildJob:
         ssh_key = profile.ssh_key
         user = profile.user.username
 
-        args = ['ansible-playbook', '-i', job.inventory]
+        #args = ['ansible-playbook', '-i', job.inventory]
+        args = [settings.ANSIBLE_PLAYBOOK, '-i', job.inventory]
         args.append(job.playbook)
         if job.limit:
             args.append('--limit')

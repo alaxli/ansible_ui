@@ -22,3 +22,6 @@ DATABASES = {
 # Mail settings
 MAIL_SENDER = "sender@domain.com"
 MAIL_SMTP = "mail.domain.com"
+
+# Ansible-playbook path
+ANSIBLE_PLAYBOOK = '/envansible_dir/bin/ansible-playbook'
