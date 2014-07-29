@@ -187,6 +187,10 @@ class JobTemplate(CommonModel):
         blank=True,
         default=None,
     )
+    sudo_user = models.CharField(
+        max_length=1024,
+        default='',
+    )
     forks = models.PositiveIntegerField(
         blank=True,
         default=0,
@@ -345,6 +349,10 @@ class Job(CommonModel):
     use_sudo = models.NullBooleanField(
         blank=True,
         default=None,
+    )
+    sudo_user = models.CharField(
+        max_length=1024,
+        default='',
     )
     sudo_password = models.CharField(
         max_length=1024,

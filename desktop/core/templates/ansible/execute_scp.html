@@ -136,7 +136,13 @@
             })
             $("#sudo_checkbox").click(function(){
                 if($("#use_sudo input").attr("checked") == "checked"){
-                var use_sudo = "\n" + '<div id="sudo_password" class="control-group">\n' +
+                var use_sudo = "\n" + '<div id="sudo_user" class="control-group">\n' +
+                                        '<label class="control-label" for="inputPlaybook">sudo user</label>\n'+
+                                        "<div class='controls'>\n"+
+                                            "<input name='sudo_user' type='text' required='required' class='span3' >\n"+
+                                        "</div>\n"+
+                                    "</div>\n"+
+                                    '<div id="sudo_password" class="control-group">\n' +
                                         '<label class="control-label" for="inputPlaybook">sudo password</label>\n'+
                                         "<div class='controls'>\n"+
                                             "<input name='sudo_password' type='password' class='span3' > </textarea>\n"+
@@ -146,6 +152,7 @@
                 }
                 else {
                     $("#sudo_password").remove();    
+                    $("#sudo_user").remove();    
                 }
             })
          })

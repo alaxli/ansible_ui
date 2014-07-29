@@ -128,8 +128,22 @@
                                         <div class="controls">
                                             <input name="use_sudo" id="sudo_checkbox" type="checkbox" {% if template.use_sudo %} checked="checked" {% endif %}/>
                                         </div>
-
                                     </div>
+                                    {% if template.use_sudo %}
+                                    <div class="control-group" id="sudo_user">
+                                        <label class="control-label" >sudo user</label>
+                                        <div class="controls">
+                                            <input name="sudo_user" type="text" class='span3' value="{{ template.sudo_user }}">
+                                        </div>
+                                    </div>
+                                    <div class="control-group" id="sudo_password">
+                                        <label class="control-label" >sudo password</label>
+                                        <div class="controls">
+                                            <input name="sudo_password" type="password" class="span3">
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
                                     <div class="control-group">
                                         <label class="control-label">Forks</label>
                                         <div class="controls">
@@ -298,15 +312,22 @@
             });
             $("#sudo_checkbox").click(function(){
                 if($("#use_sudo input").attr("checked") == "checked"){
-                var use_sudo = "\n" + '<div id="sudo_password" class="control-group">\n' +
+                var use_sudo = "\n" + '<div id="sudo_user" class="control-group">\n' +
+                                        '<label class="control-label" for="inputPlaybook">sudo user</label>\n'+
+                                        "<div class='controls'>\n"+
+                                            "<input name='sudo_user' type='text' required='required' class='span3' >\n"+
+                                        "</div>\n"+
+                                    "</div>\n"+
+                                    '<div id="sudo_password" class="control-group">\n' +
                                         '<label class="control-label" for="inputPlaybook">sudo password</label>\n'+
                                         "<div class='controls'>\n"+
-                                            "<input name='sudo_password' type='password' required='required' class='span3' > </textarea>\n"+
+                                            "<input name='sudo_password' type='password' class='span3' > </textarea>\n"+
                                         "</div>\n"+
                                     "</div>"
                 $("#use_sudo").after(use_sudo);
                 }
                 else {
+                    $("#sudo_user").remove();    
                     $("#sudo_password").remove();    
                 }
             });

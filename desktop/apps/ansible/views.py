@@ -65,6 +65,7 @@ def execute_script(request,project_name):
         forks = request.POST.get('forks')
         limit = request.POST.get('limit')
         sudo_password = request.POST.get('sudo_password')
+        sudo_user = request.POST.get('sudo_user')
 
         script_file_name = "%s.sh" % uuid.uuid1()
         script_content = script
@@ -72,8 +73,12 @@ def execute_script(request,project_name):
 
         file_name = "%s.yml" % uuid.uuid1()
         file_content  = "- hosts  : %s \n" % hosts
-        file_content += "  sudo   : yes\n"
+       # file_content += "  sudo   : yes\n"
         file_content += "  user   : %s \n" % user
+        if sudo_user:
+            file_content += "  sudo    : yes\n"
+            file_content += "  sudo_user : %s \n" % sudo_user
+
         file_content += "  tasks  : \n"
         file_content += "      - name: execute script \n"
         file_content += "        action: script %s %s \n" % (script_path,args)
@@ -95,6 +100,8 @@ def execute_script(request,project_name):
         if limit:
             job.limit = limit
         job.use_sudo = use_sudo
+        if sudo_user:
+            job.sudo_user = sudo_user
         if sudo_password:
             job.sudo_password = sudo_password
 
@@ -142,14 +149,15 @@ def execute_playbook(request, project_name,template_pk=None):
         hosts = request.POST.get('hosts')
         user = request.POST.get('user')
         use_sudo = request.POST.get('use_sudo')
+        sudo_user = request.POST.get('sudo_user')
         forks = request.POST.get('forks')
         limit = request.POST.get('limit')
         extra_vars = request.POST.get('extra_vars')
         sudo_password = request.POST.get('sudo_password')
         package_version = request.POST.get('packageselect')
         email = request.POST.get('email')
-        #package_file = project_name + "_" + package_version + ".tar.gz"
         timer = request.POST.get('timer')
+        #package_file = project_name + "_" + package_version + ".tar.gz"
 
         if inventory == '<--None-->':
             file_content = request.POST.get('hosts')
@@ -170,6 +178,10 @@ def execute_playbook(request, project_name,template_pk=None):
         file_content  = "- hosts  : %s \n" % hosts
         #file_content += "  sudo   : yes\n"
         file_content += "  user   : %s \n" % user
+        if sudo_user:
+            file_content += "  sudo    : yes\n"
+            file_content += "  sudo_user : %s \n" % sudo_user
+
         if package_version == "":
             if pmax:
                 package_version = str(pmax[0].version)
@@ -213,6 +225,8 @@ def execute_playbook(request, project_name,template_pk=None):
         if limit:
             job.limit = limit
         job.use_sudo = use_sudo
+        if sudo_user:
+            job.sudo_user = sudo_user
         if sudo_password:
             job.sudo_password = sudo_password
         if email != "":
@@ -260,6 +274,7 @@ def restart_job(request,project_name,job_pk):
     job.email = job_current.email
 
     job.use_sudo = job_current.use_sudo
+    job.sudo_user = job_current.sudo_user
     job.sudo_password = job_current.sudo_password
 
     job.save()
@@ -308,6 +323,9 @@ def save_template(request,project_name):
         extra_vars = request.POST.get('extra_vars')
         email = request.POST.get('email')
 
+        if use_sudo:
+            sudo_user = request.POST.get('sudo_user')
+
         template_pk = request.POST.get('template_pk')
 
         LOG.debug("template_pk=%s" %template_pk)
@@ -326,7 +344,9 @@ def save_template(request,project_name):
         template.hosts = hosts
         template.user = user
         template.created_by = request.user
-#        template.use_sudo = use_sudo
+        template.use_sudo = use_sudo
+        if use_sudo:
+            template.sudo_user = sudo_user
 #        template.forks = forks
 #        template.limit = limit
 #        template.extra_vars = extra_vars
@@ -348,6 +368,7 @@ def execute_scp(request,project_name):
         forks = request.POST.get('forks')
         limit = request.POST.get('limit')
         sudo_password = request.POST.get('sudo_password')
+        sudo_user = request.POST.get('sudo_user')
         owner = request.POST.get('owner')
         group = request.POST.get('group')
         mode = request.POST.get('mode')
@@ -364,6 +385,9 @@ def execute_scp(request,project_name):
         file_name = "%s.yml" % uuid.uuid1()
         file_content  = "- hosts  : %s \n" % hosts
         file_content += "  user   : %s \n" % user
+        if sudo_user:
+            file_content += "  sudo    : yes\n"
+            file_content += "  sudo_user : %s \n" % sudo_user
         file_content += "  tasks  : \n"
         file_content += "      - name: execute script \n"
         file_content += "        action: copy src=%s dest=%s owner=%s group=%s mode=%d\n" % (src_path, dest_path, owner, group, int(mode))
@@ -386,6 +410,8 @@ def execute_scp(request,project_name):
         job.use_sudo = use_sudo
         if sudo_password:
             job.sudo_password = sudo_password
+        if sudo_user:
+            job.sudo_user = sudo_user
 
         job.save()
         job_pk=job.pk
