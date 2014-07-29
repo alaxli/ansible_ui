@@ -51,9 +51,6 @@
                        <div class="span3">
                         <a href="{% url 'execute_scp' project.name %}" class="btn btn-primary">{% trans "Execute Scp" %}</a>
                        </div>
-                       <div class="span3">
-                        <a href="{% url 'schedule' project.name %}" class="btn btn-primary">{% trans "Manage Schedule" %}</a>
-                       </div>
                     </div>
                 </div>
 
@@ -67,15 +64,16 @@
                         <a href="#hostmgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Host Management" %}</a>
                         <a href="#" id="hostmgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="[test]<br/>10.204.8.228<br/><br/>[product]<br/>10.200.10.10<br/><br/>[all:children]<br/>test<br/>product<br/>" title="Example" ><i class="icon-question-sign"></i></a>
                       </div>
+
                       <div class="span3">
-                        <a href="#packagemgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Package Management" %}</a>
-                        <a href="#" id="packagemgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="目录：packages<br/>仅供ci平台使用，存储jenkins平台编译的程序包<br/>删除对应版本的程序包，再次执行ci平台编译，可实现程序重新打包<br/>自定义的数据文件请放在数据管理中" title="Note" ><i class="icon-question-sign"></i></a>
+                        <a href="{% url 'explore' project.name %}" role="botton" class="btn btn-primary">{% trans "Data Management" %}</a>
+                        <a href="#" id="datamgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="数据包含playbooks(任务)、packages(程序包，仅供ci平台使用)、data(用户自定义文件)、vars(全量变量)四类" title="Note" ><i class="icon-question-sign"></i></a>
                       </div>
-                        
-                      <div class="span3">
-                        <a href="#datamgtModal" role="botton" class="btn btn-primary" data-toggle="modal">{% trans "Data Management" %}</a>
-                        <a href="#" id="datamgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="目录：data<br/>存储用户自定义的文件<br/>在yml中引用路径为 ../data/" title="Note" ><i class="icon-question-sign"></i></a>
-                      </div>
+
+                       <div class="span3">
+                        <a href="{% url 'schedule' project.name %}" class="btn btn-primary">{% trans "Manage Schedule" %}</a>
+                        <a href="#" id="schedulemgttip" class="btn btn-info btn-mini" rel="popover" data-placement="bottom" data-content="管理预约执行的任务，执行查看和删除操作" title="Note" ><i class="icon-question-sign"></i></a>
+                       </div>
 
                       <div class="span3">
                         <a href="{% url 'deploykey' project.name %}" class="btn btn-primary">{% trans "Deploy SSHKey" %}</a>
@@ -177,6 +175,7 @@ $(function () {
     $('#datamgttip').popover();
     $('#playbooktip').popover();
     $('#deploykeytip').popover();
+    $('#schedulemgttip').popover();
 });
 </script>
     <!-- jQuery and jQuery UI (REQUIRED) -->
