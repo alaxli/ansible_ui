@@ -61,7 +61,7 @@ Install
 
         cd desktop/core/internal
         vim settings_local.py 
-        # 修改 LDAP Datebase Mail 配置
+        # 修改 LDAP Datebase Mail 和ansible_playbook命令位置(which ansible_playbook)配置
         如果需要使用ldap，还需要修改settings.py，去掉下面行的注释
         #'desktop.core.auth.backend.LdapBackend',
 
