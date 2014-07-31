@@ -21,6 +21,12 @@ JOB_TYPE_CHOICES = [
 
 class Package(models.Model):
     """ docstring for Package """
+    project = models.ForeignKey(
+        'Project',
+        related_name='package',
+        null=True,
+        on_delete=models.SET_NULL,
+    ) 
     version = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
     scmurl = models.URLField(blank=False)
@@ -225,8 +231,8 @@ class Project(CommonModel):
 #    local_path = models.CharField( max_length=1024 )
     #default_playbook = models.CharField(max_length=1024)
     scmtype = models.CharField(max_length=64)
-    scmurl = models.URLField(blank=True)
-    package = models.ManyToManyField(Package,blank=True)
+    scmurl = models.URLField(blank=True,null=True,unique=True)
+    #package = models.ManyToManyField(Package,blank=True)
     group = models.CharField(max_length=128,null = True, blank = True)
     class Meta:
         permissions = (

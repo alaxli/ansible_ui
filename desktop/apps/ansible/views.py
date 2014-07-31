@@ -544,6 +544,9 @@ def delete_project(request,project_name):
 
     data=False
     try:
+        Job.objects.filter(project=project).delete()
+        JobTemplate.objects.filter(project=project).delete()
+        Package.objects.filter(project=project).delete()
         Project.objects.get(name=project_name).delete()
         delete_project_dir(project_name)
         data=True
