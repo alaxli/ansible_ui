@@ -5,7 +5,7 @@
         <div class="page-header">
             <h3>
                 <i class="icon-desktop icon-2x pull-left icon-muted"></i>
-                                <a href="{%if job.project.name == 'package' %} {% url 'list_packages' %} {% elif job.project.name == 'service' %} {% url 'list_services' %} {% else %} {% url 'view_project' job.project.name %} {% endif %}" >{{ job.project.name }}</a>
+                <a href="{% url 'view_project' job.project.name %} " >{{ job.project.name }}</a>
                 <span class="divider">/</span>
                 <span>{% trans "Execute Result" %}</span>
                 <a class="pull-right" href="{% url 'restart_job' project_name=job.project.name job_pk=job.pk %}"><i class=" icon-refresh"></i>{% trans " Restart" %}</a>
@@ -16,33 +16,33 @@
             </p>
         </div>
 
-        <di class="container">
+        <div class="container">
             <h5>stdout</h5>
             <pre id="result_stdout" class="prettyprint lang-yaml" >
                 {{ job.result_stdout }}
             </pre>
-        </di>
-        <di class="container">
+        </div>
+        <div class="container">
             <h5>stderr</h5>
             <pre id="result_stderr" class="prettyprint lang-yaml" >
                  {{ job.result_stderr }}
             </pre>
-        </di>
+        </div>
 
-        <di class="container">
+        <div class="container">
             <h5>traceback</h5>
             <pre id="result_traceback" class="prettyprint lang-yaml" >
                 {{ job.result_traceback }}
             </pre>
-        </di>
+        </div>
 
-        <di class="container">
+        <div class="container">
             <h5>Ansible Resources</h5>
             <div class="controls-row">
                 <a href="{% url 'elfinder_view_file' job.project.name job.inventory %}" >Inventory</a>
                 <a href="{% url 'elfinder_view_file' job.project.name job.playbook %}" >Playbook</a>
             </div>
-        </di>
+        </div>
 
 
     </div>

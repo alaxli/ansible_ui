@@ -427,10 +427,13 @@ def execute_scp(request,project_name):
     })
 
 def elfinder_view_file(request,project_name,path):
-    #if path[0] != '/':
-    #    path = '/' + path
+    tmppath = path
+    if path[0] != '/':
+        path = '/' + path
     project = Project.objects.get(name=project_name)
-    path = os.path.join(get_project_dir(project_name),path)
+    workpath = get_project_dir(project_name)
+    if workpath not in path:
+        path = os.path.join(workpath,tmppath)
     content = get_project_file_content(project_name,path)
     file_name = ntpath.basename(path)
     return render("ansible/view_file.html",request,{
