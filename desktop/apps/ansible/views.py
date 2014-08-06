@@ -55,6 +55,8 @@ LOG = logging.getLogger(__name__)
 def execute_script(request,project_name):
     project=Project.objects.get(name=project_name)
     if request.method == 'POST':
+        if ( request.user.has_perm('execute_proj',project) == False ):
+            raise PopupException('Soarry, you have not right to execute the project!')
 
         inventory = request.POST.get('inventory')
         script = request.POST.get('script')
@@ -360,6 +362,8 @@ def save_template(request,project_name):
 def execute_scp(request,project_name):
     project=Project.objects.get(name=project_name)
     if request.method == 'POST':
+        if ( request.user.has_perm('execute_proj',project) == False ):
+            raise PopupException('Soarry, you have not right to execute the project!')
 
         inventory = request.POST.get('inventory')
         hosts = request.POST.get('hosts')
@@ -658,6 +662,8 @@ def view_project(request,project_name):
         raise Exception("project not exits!")
 
     if request.method == 'POST':
+        if ( user.has_perm('config_proj',project) == False ):
+            raise PopupException('Sorry, you have not right to config the project!')
         hostcontent = request.POST.get("hostcontent")
         savefilecontent(project_name, hostcontent)
 
@@ -744,7 +750,7 @@ def manage_project(request,project_id=""):
 def deploykey(request,project_name):
     user = request.user
     project = Project.objects.get(name = project_name)
-    if ( user.has_perm('manage_proj',project) == False ):
+    if ( user.has_perm('execute_proj',project) == False ):
         raise PopupException('Sorry, you have not right to execute the project!')
 
     result = []
