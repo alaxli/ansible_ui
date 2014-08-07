@@ -31,6 +31,7 @@ from desktop.apps.ansible.path_utils import *
 from desktop.apps.account.models import Profile
 from desktop.core.lib.exceptions_renderable import PopupException
 from django.contrib.auth.models import User
+from desktop.apps.account.crypt import AESdecrypt
 
 import smtplib
 from email.mime.text import MIMEText
@@ -130,6 +131,7 @@ class BuildJob:
 
         profile = get_profile(job.pk)
         ssh_key = profile.ssh_key
+        ssh_password = profile.ssh_password
         user = profile.user.username
 
         #args = ['ansible-playbook', '-i', job.inventory]
@@ -150,7 +152,8 @@ class BuildJob:
         args.append('--private-key')
         credential_file = create_credential_file(profile.user.username, ssh_key)
         args.append(credential_file)
-        #args.append('--ask-pass')
+        if ssh_password:
+            args.append('--ask-pass')
 
         LOG.info(" ".join(args))
 
@@ -222,7 +225,7 @@ class RunJob(Task):
             elif result_id == 3:
 #                child.sendline(passwords.get('ssh_password', ''))
                 profile = get_profile(job_pk)
-                child.sendline(profile.ssh_password)
+                child.sendline(AESdecrypt("pass34",profile.ssh_password))
             job_updates = {}
             if logfile_pos != logfile.tell():
                 job_updates['result_stdout'] = logfile.getvalue()

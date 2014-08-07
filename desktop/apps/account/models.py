@@ -15,7 +15,7 @@ class Profile(models.Model):
             null=True, 
             blank=True)
     ssh_password = models.CharField(_('ssh_password'), 
-            max_length=50, 
+            max_length=256, 
             null=True, 
             blank=True)
     ssh_key = models.CharField(_('ssh_key'), 

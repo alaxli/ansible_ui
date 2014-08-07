@@ -10,6 +10,7 @@ from django.contrib.auth.models import User, Group
 from desktop.core.lib.django_util import render
 from desktop.core.lib.exceptions_renderable import PopupException
 from desktop.apps.account.models import Profile
+from desktop.apps.account.crypt import AESencrypt
 
 def list_users(request):
     ''' list users '''
@@ -63,7 +64,7 @@ def credential(request, username):
         ssh_password = request.POST.get('ssh_password')
         ssh_key = request.POST.get('id_dsa_pub')
         profile = Profile.objects.get_or_create(user=request.user)[0]
-        profile.ssh_password = ssh_password
+        profile.ssh_password =  AESencrypt("pass34",ssh_password)
         profile.ssh_key = ssh_key
         profile.save()
 
