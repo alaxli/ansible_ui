@@ -152,7 +152,7 @@ class BuildJob:
         args.append('--private-key')
         credential_file = create_credential_file(profile.user.username, ssh_key)
         args.append(credential_file)
-        if ssh_password:
+        if ssh_password and ssh_password != '':
             args.append('--ask-pass')
 
         LOG.info(" ".join(args))

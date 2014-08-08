@@ -64,7 +64,10 @@ def credential(request, username):
         ssh_password = request.POST.get('ssh_password')
         ssh_key = request.POST.get('id_dsa_pub')
         profile = Profile.objects.get_or_create(user=request.user)[0]
-        profile.ssh_password =  AESencrypt("pass34",ssh_password)
+        if ssh_password == '':
+            profile.ssh_password=''
+        else:
+            profile.ssh_password =  AESencrypt("pass34",ssh_password)        
         profile.ssh_key = ssh_key
         profile.save()
 

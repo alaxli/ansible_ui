@@ -9,7 +9,7 @@ from desktop.apps.account.models import Profile
 
 class ProfileAdmin(admin.ModelAdmin):
     """docstring for AuthorAdmin"""
-    list_display = ('cn_name', 'ssh_password', 'ssh_key', 'phonenum')
+    list_display = ('user', 'cn_name', 'ssh_password', 'ssh_key', 'phonenum')
 
 
 admin.site.register(Profile, ProfileAdmin)
