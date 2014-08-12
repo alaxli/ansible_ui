@@ -231,7 +231,7 @@ class Project(CommonModel):
 #    local_path = models.CharField( max_length=1024 )
     #default_playbook = models.CharField(max_length=1024)
     scmtype = models.CharField(max_length=64)
-    scmurl = models.URLField(blank=True,null=True,unique=True)
+    scmurl = models.URLField(blank=True,null=True)
     #package = models.ManyToManyField(Package,blank=True)
     group = models.CharField(max_length=128,null = True, blank = True)
     class Meta:
