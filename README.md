@@ -18,6 +18,10 @@ Function
 * 提供邮件通知功能
 * 基于celery队列进行任务分发，便于扩展
 
+UserManual
+=====
+[ansible_ui平台用户手册](https://github.com/alaxli/ansible_ui/tree/master/documents)
+
 Requirements
 =====
 * pip
