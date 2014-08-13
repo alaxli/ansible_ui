@@ -13,3 +13,4 @@ MySQL-python
 python-ldap
 ansible
 supervisor
+threadpool
