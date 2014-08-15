@@ -1,0 +1,5 @@
+*.pyc
+.idea
+.vagrant
+desktop/apps/account/migrations
+desktop/apps/ansible/migrations
