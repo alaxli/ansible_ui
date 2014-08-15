@@ -3,11 +3,11 @@
   remote_user: vagrant
   tasks:
     - name: execute shell by ansible
-      shell: echo "hello world" 
+      shell: echo "hello world"
     - name: install requirement softwares
       sudo: yes
       apt: name={{ item }} state=latest update_cache=yes
-      with_items: 
+      with_items:
        - build-essential
        - curl
        - libmysqld-dev
@@ -18,18 +18,18 @@
        - libldap2-dev
     - name: install latest pip in ubuntu
       shell: curl https://bootstrap.pypa.io/get-pip.py | python
-      sudo: yes 
-    - name: install python requirements 
+      sudo: yes
+    - name: install python requirements
       sudo: yes
       shell: cd /vagrant && pip install -r requirements.txt
     - name: install PIL
       sudo: yes
       shell: pip install PIL --allow-external PIL --allow-unverified PIL
     - name: Update MySQL Root Password
-      mysql_user: host=% name=ansibleuser password=123456 priv=*.*:ALL state=present
+      mysql_user: host=% name=ansibleuser password=**** priv=*.*:ALL state=present
     - name: Create local development database
-      mysql_db: name=ansible encoding=utf8 state=present 
-   
+      mysql_db: name=ansible encoding=utf8 state=present
+
   handlers:
     - name: restart mysql
       service: name=mysql state=restarted
