@@ -110,7 +110,8 @@ Install
 
 
 * Vagrant + Ansible
-感谢[yunlzheng](http://yunlzheng.github.io/2014/08/08/vagrant-with-ansible/)提供了使用vagrant+ansible自动构建开发环境的方式[Vagrantfile](https://github.com/alaxli/ansible_ui/blob/master/Vagrantfile)+[playbook.yml](https://github.com/alaxli/ansible_ui/blob/master/playbook.yml),具体操作推荐阅读yunlzheng的[《利用Ansible将开发环境纳入版本管理》](http://yunlzheng.github.io/2014/08/08/vagrant-with-ansible/)
+
+    感谢[yunlzheng](https://github.com/yunlzheng)提供了使用vagrant+ansible自动构建开发环境的方式[Vagrantfile](https://github.com/alaxli/ansible_ui/blob/master/Vagrantfile)+[playbook.yml](https://github.com/alaxli/ansible_ui/blob/master/playbook.yml),具体操作推荐阅读yunlzheng的[《利用Ansible将开发环境纳入版本管理》](http://yunlzheng.github.io/2014/08/08/vagrant-with-ansible/)
 
 
 Run
