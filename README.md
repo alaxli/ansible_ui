@@ -132,7 +132,7 @@ Run
 
 Demo
 =====
-* http://115.28.87.99:8888 用户名:admin 密码:ansible 
+* http://115.28.87.99:8888 用户名:admin 密码:ansible (由于服务器资源紧张，暂时关闭)
 
 Problem
 =====
