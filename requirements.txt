@@ -1,4 +1,4 @@
-django
+django==1.6
 django-celery
 django-jsonfield
 django-auth-ldap  
