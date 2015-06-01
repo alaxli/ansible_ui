@@ -199,6 +199,7 @@ class RunJob(Task):
         requested.
         '''
         status, stdout, stderr = 'error', '', ''
+        job = Job.objects.get(pk=job_pk)
         logfile = cStringIO.StringIO()
         logfile_pos = logfile.tell()
         child = pexpect.spawn(args[0], args[1:], cwd=cwd, env=env)
@@ -209,6 +210,7 @@ class RunJob(Task):
                 r'Enter passphrase for .*:',
                 r'Bad passphrase, try again for .*:',
                 r'sudo password.*:',
+                r'SUDO password.*:',
                 r'SSH password:',
                 pexpect.TIMEOUT,
                 pexpect.EOF,
@@ -223,6 +225,8 @@ class RunJob(Task):
             elif result_id == 2:
                 child.sendline(job.sudo_password)
             elif result_id == 3:
+                child.sendline(job.sudo_password)
+            elif result_id == 4:
 #                child.sendline(passwords.get('ssh_password', ''))
                 profile = get_profile(job_pk)
                 child.sendline(AESdecrypt("pass34",profile.ssh_password))
