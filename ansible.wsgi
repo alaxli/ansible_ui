@@ -3,10 +3,10 @@ import os
 import sys
 import site
 
-site.addsitedir('/yourvirtualenv/lib64/python2.6/site-packages')
-site.addsitedir('/yourvirtualenv/lib/python2.6/site-packages/')
+site.addsitedir('/works/envansible/lib64/python2.6/site-packages')
+site.addsitedir('/works/envansible/lib/python2.6/site-packages/')
 
-activate_env = os.path.expanduser('/yourvirtualenv/bin/activate_this.py')
+activate_env = os.path.expanduser('/works/envansible/bin/activate_this.py')
 execfile(activate_env, dict(__file__ = activate_env))
 
 default_encoding = 'utf-8'
