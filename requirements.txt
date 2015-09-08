@@ -14,3 +14,4 @@ python-ldap
 ansible
 supervisor
 threadpool
+uwsgi

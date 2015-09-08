@@ -125,9 +125,18 @@ Run
 * apache + wsgi
 
         修改apache-conf/ansible.cfg : ansible_ui_dir，指向实际目录
-        修改django.wsgi : yourvirtualenv 指向实际目录
+        修改ansible.wsgi : yourvirtualenv 指向实际目录
         拷贝apache-conf/ansible.cfg 到apache配置目录下
         重启 httpd
+
+
+* nginx + uwsgi
+
+        配置nginx: 参考nginx-conf/nginx_ansible.cfg  
+        启动nginx
+        修改ansible.wsgi : yourvirtualenv 指向实际目录
+        修改ansible_uwsgi.ini : 修改相关配置
+        启动 uwsgi： uwsgi --ini ansible_uwsgi.ini -d ansible.log
 
 
 Demo
